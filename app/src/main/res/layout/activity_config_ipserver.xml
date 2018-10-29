@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConfigIPServer">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarConfigIP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDarkRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorWhite"
+            android:text="Config IP Server"
+            android:fontFamily="@font/montserrat"
+            android:textSize="29sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="26dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:textSize="24sp"
+            android:hint="IP Address Socket"
+            android:layout_marginBottom="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:textSize="24sp"
+            android:hint="IP Address HTTP"
+            android:layout_marginBottom="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_gravity="end"
+            android:text="Save"
+            android:textSize="20sp"
+            android:layout_width="300dp"
+            android:layout_height="80dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Setting">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDarkRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorWhite"
+            android:text="Setting"
+            android:fontFamily="@font/montserrat"
+            android:textSize="29sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgLanguage"
+            android:src="@drawable/ic_language_red_dark_48dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@+id/imgLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:text="Language"
+            android:textColor="@color/colorBlackDark"
+            android:fontFamily="@font/montserrat"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/imgNextLanguage"
+            android:layout_centerVertical="true"
+            android:text="English"
+            android:fontFamily="@font/montserrat"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imgNextLanguage"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_navigate_next_black_fuzzy_48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_marginStart="95dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/colorLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:onClick="dialogSelectTable"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="OnClick">
+        <ImageView
+            android:id="@+id/imgTable"
+            android:src="@drawable/ic_grid_on_red_dark_48dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@+id/imgTable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Table"
+            android:layout_marginLeft="22dp"
+            android:textColor="@color/colorBlackDark"
+            android:fontFamily="@font/montserrat"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/imgNextTable"
+            android:layout_centerVertical="true"
+            android:text="101"
+            android:fontFamily="@font/montserrat"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imgNextTable"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_navigate_next_black_fuzzy_48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_marginStart="95dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/colorLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:onClick="showHideConfigIP"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgIPServer"
+            android:src="@drawable/ic_desktop_windows_red_dark_48dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@+id/imgIPServer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="IP Server"
+            android:layout_marginLeft="22dp"
+            android:textColor="@color/colorBlackDark"
+            android:fontFamily="@font/montserrat"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/imgNextIPServer"
+            android:layout_centerVertical="true"
+            android:text="Socket 192.129.1.1.3000 Http 192.168.1.2:8080"
+            android:fontFamily="@font/montserrat"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imgNextIPServer"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_navigate_next_black_fuzzy_48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_marginStart="95dp"
+        android:layout_marginEnd="40dp"
+        android:id="@+id/layoutShowHideIP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:textSize="16sp"
+            android:hint="IP Address Socket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:hint="IP Address HTTP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_gravity="end"
+            android:text="Save"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:layout_marginStart="95dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/colorLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:onClick="showHideChangePassword"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgPassword"
+            android:src="@drawable/ic_lock_red_dark_24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@id/imgPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:text="Password"
+            android:textColor="@color/colorBlackDark"
+            android:fontFamily="@font/montserrat"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/imgNextPassword"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="*********"
+            android:fontFamily="@font/montserrat"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imgNextPassword"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_navigate_next_black_fuzzy_48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:layout_marginStart="95dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/colorLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:onClick="LogOutSetting"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/LogOut"
+            android:src="@drawable/ic_log_out_red_dark_48dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@id/LogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:text="Log Out"
+            android:textColor="@color/colorBlackDark"
+            android:fontFamily="@font/montserrat"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_marginStart="95dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/colorLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+</LinearLayout>

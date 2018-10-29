@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorWhiteDark"
+    tools:context=".Invoice">
+
+    <LinearLayout
+        android:id="@+id/linearToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarInvoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/colorDarkRed">
+            <TextView
+                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
+                android:text="Invoice"
+                android:fontFamily="@font/montserrat"
+                android:textSize="29sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.Toolbar>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/headerinvoice"
+        android:layout_below="@+id/linearToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guidelineName"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guidelineQuality"
+                app:layout_constraintGuide_percent="0.65"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/noNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat"
+                android:text="No"
+                android:textColor="@color/colorDarkRed"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Name"
+                android:textColor="@color/colorDarkRed"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/guidelineName"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Quality"
+                android:textColor="@color/colorDarkRed"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/guidelineQuality"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="48dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Price"
+                android:textColor="@color/colorDarkRed"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_above="@+id/LinearLayoutSub"
+        android:layout_below="@id/headerinvoice"
+        android:id="@+id/recyclerViewInvoice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutSub"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.constraint.Guideline
+                android:id="@+id/guidelineQuality12"
+                app:layout_constraintGuide_percent="0.65"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/sub"
+                android:text="Sub Total:"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/colorWhiteDarkBold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineQuality12"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/vat"
+                android:text="VAT:"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@color/colorWhiteDarkBold"
+                app:layout_constraintTop_toBottomOf="@+id/sub"
+                app:layout_constraintEnd_toStartOf="@id/guidelineQuality12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/grandTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Grand Total:"
+                android:textColor="@color/colorWhiteDarkBold"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/vat"
+                app:layout_constraintEnd_toStartOf="@id/guidelineQuality12"/>
+
+            <TextView
+                android:id="@+id/textViewSubTotal"
+                android:text="65.000 USD"
+                android:textColor="@color/colorWhiteDarkBold"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="26dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textViewVAT"
+                android:text="10%"
+                android:textColor="@color/colorWhiteDarkBold"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginEnd="26dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewSubTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textViewGrandTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="26dp"
+                android:layout_marginEnd="26dp"
+                android:fontFamily="@font/montserrat"
+                android:text="56.005 USD"
+                android:textColor="@color/colorRedFresh"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/textViewVAT"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+</RelativeLayout>

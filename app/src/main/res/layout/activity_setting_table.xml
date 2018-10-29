@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linearSettingTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarSettingTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@color/colorDarkRed">
+            <TextView
+                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
+                android:text="Setting Table"
+                android:fontFamily="@font/montserrat"
+                android:textSize="29sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.Toolbar>
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/gridViewDialogConfigTable"
+        android:numColumns="4"
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="20dp"
+        android:verticalSpacing="20dp"
+        android:paddingStart="26dp"
+        android:paddingEnd="26dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:layout_below="@+id/linearSettingTable"
+        android:layout_above="@+id/layoutButtonSettingTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </GridView>
+
+    <LinearLayout
+        android:id="@+id/layoutButtonSettingTable"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="130dp">
+
+        <Button
+            android:text="Save"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="26dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="600dp"
+    android:layout_height="500dp"
+    android:background="@color/colorWhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:id="@+id/closePopupMenu"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_alignParentEnd="true"
+        android:background="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_close_black_48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/imgNotifica"
+        android:layout_marginTop="145dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_notifications_none_black_167dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@+id/imgNotifica"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calling Services..."
+        android:textColor="@color/colorBlackDark"
+        android:textSize="30sp"/>
+
+</RelativeLayout>

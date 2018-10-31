@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.MyAdapter;
+package vn.iotech.restaurant.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,15 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import vn.iotech.restaurant.Model.ObjectForRecyclerViewInVoice;
+import vn.iotech.restaurant.Models.ObjectForRecyclerViewInVoice;
 import vn.iotech.restaurant.R;
 
-public class MyAdapterForRecylerViewInvoice extends RecyclerView.Adapter<MyAdapterForRecylerViewInvoice.ViewHolder>{
+public class AdapterInvoice extends RecyclerView.Adapter<AdapterInvoice.ViewHolder>{
 
     ArrayList<ObjectForRecyclerViewInVoice> ojectForListViewInVoices;
     Context context;
 
-    public MyAdapterForRecylerViewInvoice(ArrayList<ObjectForRecyclerViewInVoice> ojectForListViewInVoices, Context context) {
+    public AdapterInvoice(ArrayList<ObjectForRecyclerViewInVoice> ojectForListViewInVoices, Context context) {
         this.ojectForListViewInVoices = ojectForListViewInVoices;
         this.context = context;
     }

@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import vn.iotech.restaurant.MyAdapter.MyAdapterSettingTable;
-import vn.iotech.restaurant.Model.ObjectForGridViewSettingTable;
+import vn.iotech.restaurant.Adapters.AdapterSettingTable;
+import vn.iotech.restaurant.Models.ObjectForGridViewSettingTable;
 
 public class SettingTable extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class SettingTable extends AppCompatActivity {
     private void GridViewTabbleSetting(){
         GridView gridView = (GridView) findViewById(R.id.gridViewDialogConfigTable);
         final ArrayList<ObjectForGridViewSettingTable> arrayList;
-        final MyAdapterSettingTable adapterConfigTable;
+        final AdapterSettingTable adapterConfigTable;
         arrayList = new ArrayList<>();
         for (int i = 1; i < 20; i++){
             for (int j = 1; j < 5; j++){
@@ -45,7 +45,7 @@ public class SettingTable extends AppCompatActivity {
                         R.drawable.ic_shopping_cart_c9c9c9_24dp));
             }
         }
-        adapterConfigTable = new MyAdapterSettingTable(this, R.layout.custom_table_setting, arrayList);
+        adapterConfigTable = new AdapterSettingTable(this, R.layout.custom_table_setting, arrayList);
         gridView.setAdapter(adapterConfigTable);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -26,8 +26,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import vn.iotech.restaurant.MyAdapter.MyAdapterRecyclerViewCart;
-import vn.iotech.restaurant.Model.ObjectForRecyclerViewInCart;
+import vn.iotech.restaurant.Adapters.AdapterCart;
+import vn.iotech.restaurant.Models.ObjectForRecyclerViewInCart;
 
 public class Cart extends AppCompatActivity {
 
@@ -112,7 +112,7 @@ public class Cart extends AppCompatActivity {
         arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_delete_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
         arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_hourglass_empty_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
         arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_check_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
-        MyAdapterRecyclerViewCart viewCart = new MyAdapterRecyclerViewCart(arrayList, getApplicationContext());
+        AdapterCart viewCart = new AdapterCart(arrayList, getApplicationContext());
         recyclerView.setAdapter(viewCart);
     }
     private void mapped(){

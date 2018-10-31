@@ -15,8 +15,8 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import vn.iotech.restaurant.MyAdapter.MyAdapterForRecylerViewInvoice;
-import vn.iotech.restaurant.Model.ObjectForRecyclerViewInVoice;
+import vn.iotech.restaurant.Adapters.AdapterInvoice;
+import vn.iotech.restaurant.Models.ObjectForRecyclerViewInVoice;
 
 public class Invoice extends AppCompatActivity {
 
@@ -67,7 +67,7 @@ public class Invoice extends AppCompatActivity {
             arrayList.add(new ObjectForRecyclerViewInVoice(i, "French Fries Recipe | Steffi's Recipes French Fries Recipe | Steffi's Recipes",
                     34, 423.02));
         }
-        MyAdapterForRecylerViewInvoice adapter = new MyAdapterForRecylerViewInvoice(arrayList, getApplicationContext());
+        AdapterInvoice adapter = new AdapterInvoice(arrayList, getApplicationContext());
         recyclerView.setAdapter(adapter);
     }
 }

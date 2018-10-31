@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.MyAdapter;
+package vn.iotech.restaurant.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,16 +13,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.DetailItemRestaurant;
-import vn.iotech.restaurant.Model.Category;
-import vn.iotech.restaurant.Model.ObjectForRecyclerViewHome;
+import vn.iotech.restaurant.Models.ObjectForRecyclerViewHome;
 import vn.iotech.restaurant.R;
 
-public class MyAdapterRecyclerViewHome extends RecyclerView.Adapter<MyAdapterRecyclerViewHome.ViewHolder>{
+public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder>{
 
     ArrayList<ObjectForRecyclerViewHome> arrayListFoods;
     Context context;
 
-    public MyAdapterRecyclerViewHome(ArrayList<ObjectForRecyclerViewHome> arrayListFoods, Context context){
+    public AdapterHome(ArrayList<ObjectForRecyclerViewHome> arrayListFoods, Context context){
         this.arrayListFoods = arrayListFoods;
         this.context = context;
     }

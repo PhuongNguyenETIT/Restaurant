@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.Model;
+package vn.iotech.restaurant.Models;
 
 public class ObjectForGridViewSettingTable {
     private String NameTable;

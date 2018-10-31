@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.Model;
+package vn.iotech.restaurant.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

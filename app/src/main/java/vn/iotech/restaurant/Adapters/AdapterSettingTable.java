@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.MyAdapter;
+package vn.iotech.restaurant.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,16 +11,16 @@ import android.widget.TextView;
 
 
 import java.util.List;
-import vn.iotech.restaurant.Model.ObjectForGridViewSettingTable;
+import vn.iotech.restaurant.Models.ObjectForGridViewSettingTable;
 import vn.iotech.restaurant.R;
 
-public class MyAdapterSettingTable extends BaseAdapter {
+public class AdapterSettingTable extends BaseAdapter {
 
     private Context context;
     private int layout;
     private List<ObjectForGridViewSettingTable> tableConfigList;
 
-    public MyAdapterSettingTable(Context context, int layout, List<ObjectForGridViewSettingTable> tableConfigList) {
+    public AdapterSettingTable(Context context, int layout, List<ObjectForGridViewSettingTable> tableConfigList) {
         this.context = context;
         this.layout = layout;
         this.tableConfigList = tableConfigList;

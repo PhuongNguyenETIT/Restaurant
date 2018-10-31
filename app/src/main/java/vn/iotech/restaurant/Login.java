@@ -13,8 +13,8 @@ import com.google.gson.JsonObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.iotech.restaurant.Model.LoginArray;
-import vn.iotech.restaurant.Model.ProfileArray;
+import vn.iotech.restaurant.Models.LoginArray;
+import vn.iotech.restaurant.Models.ProfileArray;
 import vn.iotech.restaurant.Retrofit2.APIRetrofitUtils;
 import vn.iotech.restaurant.Retrofit2.RetrofitDataClient;
 

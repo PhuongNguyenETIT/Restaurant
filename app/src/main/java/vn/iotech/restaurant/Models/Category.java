@@ -1,34 +1,42 @@
-package vn.iotech.restaurant.Model;
+package vn.iotech.restaurant.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ObjectResultForProfile {
+public class Category {
 
+    @SerializedName("isTrash")
+    @Expose
+    private Boolean isTrash;
     @SerializedName("_id")
     @Expose
     private String id;
     @SerializedName("_restaurantId")
     @Expose
     private String restaurantId;
-    @SerializedName("fullName")
+    @SerializedName("name")
     @Expose
-    private String fullName;
-    @SerializedName("age")
+    private String name;
+    @SerializedName("icon")
     @Expose
-    private Integer age;
-    @SerializedName("avartar")
+    private String icon;
+    @SerializedName("orderby")
     @Expose
-    private String avartar;
-    @SerializedName("description")
-    @Expose
-    private String description;
+    private Integer orderby;
     @SerializedName("_createTime")
     @Expose
     private String createTime;
     @SerializedName("_updateTime")
     @Expose
     private String updateTime;
+
+    public Boolean getIsTrash() {
+        return isTrash;
+    }
+
+    public void setIsTrash(Boolean isTrash) {
+        this.isTrash = isTrash;
+    }
 
     public String getId() {
         return id;
@@ -46,36 +54,28 @@ public class ObjectResultForProfile {
         this.restaurantId = restaurantId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
-    public String getAvartar() {
-        return avartar;
+    public Integer getOrderby() {
+        return orderby;
     }
 
-    public void setAvartar(String avartar) {
-        this.avartar = avartar;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setOrderby(Integer orderby) {
+        this.orderby = orderby;
     }
 
     public String getCreateTime() {
@@ -93,4 +93,5 @@ public class ObjectResultForProfile {
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
+
 }

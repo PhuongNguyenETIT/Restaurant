@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.Model;
+package vn.iotech.restaurant.Models;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

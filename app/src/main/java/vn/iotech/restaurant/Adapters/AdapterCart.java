@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.MyAdapter;
+package vn.iotech.restaurant.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,15 +10,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import vn.iotech.restaurant.Model.ObjectForRecyclerViewInCart;
+import vn.iotech.restaurant.Models.ObjectForRecyclerViewInCart;
 import vn.iotech.restaurant.R;
 
-public class MyAdapterRecyclerViewCart extends RecyclerView.Adapter<MyAdapterRecyclerViewCart.ViewHolder> {
+public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
 
     ArrayList<ObjectForRecyclerViewInCart> arrayList;
     Context context;
 
-    public MyAdapterRecyclerViewCart(ArrayList<ObjectForRecyclerViewInCart> arrayList, Context context) {
+    public AdapterCart(ArrayList<ObjectForRecyclerViewInCart> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }

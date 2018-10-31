@@ -30,10 +30,9 @@ import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import vn.iotech.restaurant.Model.Category;
-import vn.iotech.restaurant.MyAdapter.MyAdapterRecyclerViewHome;
-import vn.iotech.restaurant.Model.CategoryArray;
-import vn.iotech.restaurant.Model.ObjectForRecyclerViewHome;
+import vn.iotech.restaurant.Adapters.AdapterHome;
+import vn.iotech.restaurant.Models.CategoryArray;
+import vn.iotech.restaurant.Models.ObjectForRecyclerViewHome;
 import vn.iotech.rxwebsocket.RxWebSocket;
 
 public class Home extends AppCompatActivity {
@@ -248,10 +247,9 @@ public class Home extends AppCompatActivity {
         recyclerView.addItemDecoration(customDivider);
         ArrayList<ObjectForRecyclerViewHome> arrayList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-
             arrayList.add(new ObjectForRecyclerViewHome(R.drawable.thuc_don, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76));
         }
-        MyAdapterRecyclerViewHome homeAdapter = new MyAdapterRecyclerViewHome(arrayList, getApplicationContext());
+        AdapterHome homeAdapter = new AdapterHome(arrayList, getApplicationContext());
         recyclerView.setAdapter(homeAdapter);
     }
 

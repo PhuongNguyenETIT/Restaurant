@@ -37,11 +37,16 @@ public class SocketMessageEvent extends SocketEvent {
         return bytes == null;
     }
 
+//    @Override
+//    public String toString() {
+//        return "SocketMessageEvent{" +
+//                "text='" + text + '\'' +
+//                ", bytes=" + bytes +
+//                '}';
+//    }
+
     @Override
     public String toString() {
-        return "SocketMessageEvent{" +
-                "text='" + text + '\'' +
-                ", bytes=" + bytes +
-                '}';
+        return text;
     }
 }

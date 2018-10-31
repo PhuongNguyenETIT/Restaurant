@@ -1,13 +1,13 @@
 package vn.iotech.restaurant.ObjectOriented;
 
-public class OjectForRecyclerViewHome {
+public class ObjectForRecyclerViewHome {
     private int ImageFoods;
     private String Detailed;
     private int Time;
     private int Person;
     private double Money;
 
-    public OjectForRecyclerViewHome(int imageFoods, String detialed, int time, int person, double money) {
+    public ObjectForRecyclerViewHome(int imageFoods, String detialed, int time, int person, double money) {
         ImageFoods = imageFoods;
         Detailed = detialed;
         Time = time;

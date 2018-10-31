@@ -11,16 +11,16 @@ import android.widget.TextView;
 
 
 import java.util.List;
-import vn.iotech.restaurant.ObjectOriented.OjectForGridViewSettingTable;
+import vn.iotech.restaurant.ObjectOriented.ObjectForGridViewSettingTable;
 import vn.iotech.restaurant.R;
 
 public class MyAdapterSettingTable extends BaseAdapter {
 
     private Context context;
     private int layout;
-    private List<OjectForGridViewSettingTable> tableConfigList;
+    private List<ObjectForGridViewSettingTable> tableConfigList;
 
-    public MyAdapterSettingTable(Context context, int layout, List<OjectForGridViewSettingTable> tableConfigList) {
+    public MyAdapterSettingTable(Context context, int layout, List<ObjectForGridViewSettingTable> tableConfigList) {
         this.context = context;
         this.layout = layout;
         this.tableConfigList = tableConfigList;
@@ -62,7 +62,7 @@ public class MyAdapterSettingTable extends BaseAdapter {
         else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        OjectForGridViewSettingTable ojectTableConfig = tableConfigList.get(i);
+        ObjectForGridViewSettingTable ojectTableConfig = tableConfigList.get(i);
         viewHolder.textViewName.setText(ojectTableConfig.getNameTable());
         //viewHolder.textViewName.setBackgroundResource(ojectTableConfig.getBackgroundTable());
         viewHolder.imageViewBooking.setImageResource(ojectTableConfig.getImageBooking());

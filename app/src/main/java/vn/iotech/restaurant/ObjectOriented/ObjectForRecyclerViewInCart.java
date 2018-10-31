@@ -1,9 +1,9 @@
 package vn.iotech.restaurant.ObjectOriented;
 
-public class OjectForRecyclerViewInCart extends OjectForRecyclerViewHome {
+public class ObjectForRecyclerViewInCart extends ObjectForRecyclerViewHome {
     int Amout;
 
-    public OjectForRecyclerViewInCart(int imageFoods, String detialed, int time, int person, double money, int amout) {
+    public ObjectForRecyclerViewInCart(int imageFoods, String detialed, int time, int person, double money, int amout) {
         super(imageFoods, detialed, time, person, money);
         Amout = amout;
     }

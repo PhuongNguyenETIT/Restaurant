@@ -27,7 +27,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.MyAdapter.MyAdapterRecyclerViewCart;
-import vn.iotech.restaurant.ObjectOriented.OjectForRecyclerViewInCart;
+import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewInCart;
 
 public class Cart extends AppCompatActivity {
 
@@ -108,10 +108,10 @@ public class Cart extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         CustomDivider customDivider = new CustomDivider(recyclerView.getContext(), 80, 26);
         recyclerView.addItemDecoration(customDivider);
-        ArrayList<OjectForRecyclerViewInCart> arrayList = new ArrayList<>();
-        arrayList.add(new OjectForRecyclerViewInCart(R.drawable.ic_delete_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
-        arrayList.add(new OjectForRecyclerViewInCart(R.drawable.ic_hourglass_empty_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
-        arrayList.add(new OjectForRecyclerViewInCart(R.drawable.ic_check_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
+        ArrayList<ObjectForRecyclerViewInCart> arrayList = new ArrayList<>();
+        arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_delete_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
+        arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_hourglass_empty_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
+        arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_check_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
         MyAdapterRecyclerViewCart viewCart = new MyAdapterRecyclerViewCart(arrayList, getApplicationContext());
         recyclerView.setAdapter(viewCart);
     }

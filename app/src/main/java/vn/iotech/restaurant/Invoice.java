@@ -16,7 +16,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.MyAdapter.MyAdapterForRecylerViewInvoice;
-import vn.iotech.restaurant.ObjectOriented.OjectForRecyclerViewInVoice;
+import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewInVoice;
 
 public class Invoice extends AppCompatActivity {
 
@@ -62,9 +62,9 @@ public class Invoice extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         CustomDivider customDivider = new CustomDivider(recyclerView.getContext(), 30, 30);
         recyclerView.addItemDecoration(customDivider);
-        ArrayList<OjectForRecyclerViewInVoice> arrayList = new ArrayList<>();
+        ArrayList<ObjectForRecyclerViewInVoice> arrayList = new ArrayList<>();
         for (int i = 1; i <=50; i++){
-            arrayList.add(new OjectForRecyclerViewInVoice(i, "French Fries Recipe | Steffi's Recipes French Fries Recipe | Steffi's Recipes",
+            arrayList.add(new ObjectForRecyclerViewInVoice(i, "French Fries Recipe | Steffi's Recipes French Fries Recipe | Steffi's Recipes",
                     34, 423.02));
         }
         MyAdapterForRecylerViewInvoice adapter = new MyAdapterForRecylerViewInvoice(arrayList, getApplicationContext());

@@ -10,15 +10,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import vn.iotech.restaurant.ObjectOriented.OjectForRecyclerViewInCart;
+import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewInCart;
 import vn.iotech.restaurant.R;
 
 public class MyAdapterRecyclerViewCart extends RecyclerView.Adapter<MyAdapterRecyclerViewCart.ViewHolder> {
 
-    ArrayList<OjectForRecyclerViewInCart> arrayList;
+    ArrayList<ObjectForRecyclerViewInCart> arrayList;
     Context context;
 
-    public MyAdapterRecyclerViewCart(ArrayList<OjectForRecyclerViewInCart> arrayList, Context context) {
+    public MyAdapterRecyclerViewCart(ArrayList<ObjectForRecyclerViewInCart> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }

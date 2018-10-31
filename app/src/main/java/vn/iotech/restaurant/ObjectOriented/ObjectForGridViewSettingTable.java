@@ -1,11 +1,11 @@
 package vn.iotech.restaurant.ObjectOriented;
 
-public class OjectForGridViewSettingTable {
+public class ObjectForGridViewSettingTable {
     private String NameTable;
     private int BackgroundTable;
     private int ImageBooking;
 
-    public OjectForGridViewSettingTable(String nameTable, int backgroundTable, int imageBooking) {
+    public ObjectForGridViewSettingTable(String nameTable, int backgroundTable, int imageBooking) {
         NameTable = nameTable;
         BackgroundTable = backgroundTable;
         ImageBooking = imageBooking;

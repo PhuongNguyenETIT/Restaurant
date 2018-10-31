@@ -1,12 +1,12 @@
 package vn.iotech.restaurant.ObjectOriented;
 
-public class OjectForRecyclerViewInVoice {
+public class ObjectForRecyclerViewInVoice {
     private int NumberNo;
     private String NameRestaurant;
     private int Quality;
     private double Price;
 
-    public OjectForRecyclerViewInVoice(int numberNo, String nameRestaurant, int quality, double price) {
+    public ObjectForRecyclerViewInVoice(int numberNo, String nameRestaurant, int quality, double price) {
         NumberNo = numberNo;
         NameRestaurant = nameRestaurant;
         Quality = quality;

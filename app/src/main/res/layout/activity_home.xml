@@ -102,7 +102,6 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/menuNaviga"
         app:headerLayout="@layout/header_navigation_view"
-        app:menu="@menu/navigation_menu"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:theme="@style/NavigationTheme"

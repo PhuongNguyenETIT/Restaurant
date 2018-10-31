@@ -13,15 +13,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.DetailItemRestaurant;
-import vn.iotech.restaurant.ObjectOriented.OjectForRecyclerViewHome;
+import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewHome;
 import vn.iotech.restaurant.R;
 
 public class MyAdapterRecyclerViewHome extends RecyclerView.Adapter<MyAdapterRecyclerViewHome.ViewHolder>{
 
-    ArrayList<OjectForRecyclerViewHome> arrayListFoods;
+    ArrayList<ObjectForRecyclerViewHome> arrayListFoods;
     Context context;
 
-    public MyAdapterRecyclerViewHome(ArrayList<OjectForRecyclerViewHome> arrayListFoods, Context context){
+    public MyAdapterRecyclerViewHome(ArrayList<ObjectForRecyclerViewHome> arrayListFoods, Context context){
         this.arrayListFoods = arrayListFoods;
         this.context = context;
     }

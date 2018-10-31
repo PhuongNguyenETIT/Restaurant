@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.MyAdapter.MyAdapterSettingTable;
-import vn.iotech.restaurant.ObjectOriented.OjectForGridViewSettingTable;
+import vn.iotech.restaurant.ObjectOriented.ObjectForGridViewSettingTable;
 
 public class SettingTable extends AppCompatActivity {
 
@@ -36,12 +36,12 @@ public class SettingTable extends AppCompatActivity {
 
     private void GridViewTabbleSetting(){
         GridView gridView = (GridView) findViewById(R.id.gridViewDialogConfigTable);
-        final ArrayList<OjectForGridViewSettingTable> arrayList;
+        final ArrayList<ObjectForGridViewSettingTable> arrayList;
         final MyAdapterSettingTable adapterConfigTable;
         arrayList = new ArrayList<>();
         for (int i = 1; i < 20; i++){
             for (int j = 1; j < 5; j++){
-                arrayList.add(new OjectForGridViewSettingTable(i*100 + j + "", R.drawable.custom_button_background_white_dark,
+                arrayList.add(new ObjectForGridViewSettingTable(i*100 + j + "", R.drawable.custom_button_background_white_dark,
                         R.drawable.ic_shopping_cart_c9c9c9_24dp));
             }
         }

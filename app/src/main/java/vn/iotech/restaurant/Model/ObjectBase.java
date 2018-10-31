@@ -1,10 +1,9 @@
-package vn.iotech.restaurant.ObjectOriented;
+package vn.iotech.restaurant.Model;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ObjectForCategoriesRealtime {
+public class ObjectBase {
 
     @SerializedName("documentKey")
     @Expose
@@ -12,9 +11,6 @@ public class ObjectForCategoriesRealtime {
     @SerializedName("operationType")
     @Expose
     private String operationType;
-    @SerializedName("data")
-    @Expose
-    private List<ObjectDataOfCategories> objectDataOfCategories = null;
 
     public String getDocumentKey() {
         return documentKey;
@@ -30,13 +26,5 @@ public class ObjectForCategoriesRealtime {
 
     public void setOperationType(String operationType) {
         this.operationType = operationType;
-    }
-
-    public List<ObjectDataOfCategories> getData() {
-        return objectDataOfCategories;
-    }
-
-    public void setData(List<ObjectDataOfCategories> objectDataOfCategories) {
-        this.objectDataOfCategories = objectDataOfCategories;
     }
 }

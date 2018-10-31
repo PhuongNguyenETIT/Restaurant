@@ -13,7 +13,8 @@ import com.google.gson.JsonObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.iotech.restaurant.ObjectOriented.ObjectDataOfLogin;
+import vn.iotech.restaurant.Model.LoginArray;
+import vn.iotech.restaurant.Model.ProfileArray;
 import vn.iotech.restaurant.Retrofit2.APIRetrofitUtils;
 import vn.iotech.restaurant.Retrofit2.RetrofitDataClient;
 
@@ -41,34 +42,52 @@ public class Login extends AppCompatActivity {
                     jsonObject.addProperty("password", pass);
 
                     RetrofitDataClient dataClient = APIRetrofitUtils.getData();
-                    Call<ObjectDataOfLogin> call = dataClient.getDataLogin(jsonObject);
-                    call.enqueue(new Callback<ObjectDataOfLogin>() {
+                    Call<LoginArray> call = dataClient.getDataLogin(jsonObject);
+                    call.enqueue(new Callback<LoginArray>() {
                         @Override
-                        public void onResponse(Call<ObjectDataOfLogin> call, Response<ObjectDataOfLogin> response) {
+                        public void onResponse(Call<LoginArray> call, Response<LoginArray> response) {
                             if(response.isSuccessful()){
-                                Log.i("TAG", response.body().getMessage());
                                 if(response.body().getMessage().indexOf("User not found")>0){
                                     Toast.makeText(Login.this, response.body().getMessage(),Toast.LENGTH_SHORT).show();
                                 }
                                 else if(response.body().getMessage().indexOf("Wrong password")>0){
                                     Toast.makeText(Login.this, response.body().getMessage(),Toast.LENGTH_SHORT).show();
                                 }
-                                else if(response.body().getData().get(0).getAuth()){
-                                    Toast.makeText(Login.this, response.body().getMessage(),Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(Login.this, Home.class);
-                                    Log.i("TAG", response.body().getData().get(0).getToken());
-                                    intent.putExtra("token", response.body().getData().get(0).getToken());
-                                    startActivity(intent);
+                                else if(response.body().getData().getAuth()){
+                                    getProfile(response.body().getData().getToken());
                                 }
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<ObjectDataOfLogin> call, Throwable t) {
+                        public void onFailure(Call<LoginArray> call, Throwable t) {
                             Log.i("TAG", t.getMessage());
                         }
                     });
                 }
+            }
+        });
+    }
+    private void getProfile(String token){
+        RetrofitDataClient client = APIRetrofitUtils.getData();
+        Call<ProfileArray> call = client.getProfile(token);
+        call.enqueue(new Callback<ProfileArray>() {
+            @Override
+            public void onResponse(Call<ProfileArray> call, Response<ProfileArray> response) {
+                if(response.isSuccessful()){
+                    if(response.body().getObjectDataOfProfile().getRole().equals("System")){
+                        Toast.makeText(Login.this, "User does not have permission to login.", Toast.LENGTH_SHORT);
+                    }
+                    else {
+                        startActivity(new Intent(Login.this, Home.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileArray> call, Throwable t) {
+                Log.i("TAG", "ErrorProfile");
             }
         });
     }

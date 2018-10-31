@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.MyAdapter.MyAdapterSettingTable;
-import vn.iotech.restaurant.ObjectOriented.ObjectForGridViewSettingTable;
+import vn.iotech.restaurant.Model.ObjectForGridViewSettingTable;
 
 public class SettingTable extends AppCompatActivity {
 

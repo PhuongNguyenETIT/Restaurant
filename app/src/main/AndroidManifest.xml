@@ -16,7 +16,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".Home"
+        <activity android:name=".Login"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Login"
+        <activity android:name=".Home"
             android:configChanges="screenSize|orientation"/>
 
         <activity android:name=".Cart"

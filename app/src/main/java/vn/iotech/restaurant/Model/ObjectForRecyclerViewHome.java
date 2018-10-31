@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.ObjectOriented;
+package vn.iotech.restaurant.Model;
 
 public class ObjectForRecyclerViewHome {
     private int ImageFoods;

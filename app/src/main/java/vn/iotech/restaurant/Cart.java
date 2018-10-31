@@ -27,7 +27,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.MyAdapter.MyAdapterRecyclerViewCart;
-import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewInCart;
+import vn.iotech.restaurant.Model.ObjectForRecyclerViewInCart;
 
 public class Cart extends AppCompatActivity {
 

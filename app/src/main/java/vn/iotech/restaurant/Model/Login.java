@@ -1,9 +1,9 @@
-package vn.iotech.restaurant.ObjectOriented;
+package vn.iotech.restaurant.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ObjectForLogin {
+public class Login {
 
     @SerializedName("auth")
     @Expose

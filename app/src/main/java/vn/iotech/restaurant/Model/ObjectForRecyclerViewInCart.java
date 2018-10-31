@@ -1,4 +1,4 @@
-package vn.iotech.restaurant.ObjectOriented;
+package vn.iotech.restaurant.Model;
 
 public class ObjectForRecyclerViewInCart extends ObjectForRecyclerViewHome {
     int Amout;

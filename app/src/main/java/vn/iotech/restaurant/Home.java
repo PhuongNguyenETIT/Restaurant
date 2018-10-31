@@ -20,7 +20,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,11 +27,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import vn.iotech.restaurant.Model.Category;
 import vn.iotech.restaurant.MyAdapter.MyAdapterRecyclerViewHome;
-import vn.iotech.restaurant.ObjectOriented.ObjectForCategoriesRealtime;
-import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewHome;
+import vn.iotech.restaurant.Model.CategoryArray;
+import vn.iotech.restaurant.Model.ObjectForRecyclerViewHome;
 import vn.iotech.rxwebsocket.RxWebSocket;
 
 public class Home extends AppCompatActivity {
@@ -46,7 +47,8 @@ public class Home extends AppCompatActivity {
     NavigationView navigationView;
 
     RxWebSocket rxWebSocketForHome, rxWebSocketForCategories;
-
+    //ArrayList<ObjectForCategoriesRealtime> arrayListCategoriesRealtime = null;
+    CategoryArray objectForCategoriesRealtime = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,18 +77,18 @@ public class Home extends AppCompatActivity {
         String txt = "There are <font color='red'>14</font> items in Cart";
         textViewItems.setText(Html.fromHtml(txt), TextView.BufferType.SPANNABLE);
 
-        SelectItemsNavigationView();
+        selectItemsNavigationView();
 
-        //initRxWebSocketForHome("ws://13.67.35.142:8686/categories");
+        //rxWebSocketForHome("ws://13.67.35.142:8686/categories");
 
-        initRxWebSocketForCategories("ws://13.67.35.142:8682/api/realtime/categories?resId=5bd6cf7a2741e02c68de5028");
+        rxWebSocketForCategories("ws://13.67.35.142:8682/api/realtime/categories?resId=5bd6cf7a2741e02c68de5028");
 
         buttonBackToolbar();
 
         initRecyclerView();
     }
 
-    private void SelectItemsNavigationView(){
+    private void selectItemsNavigationView(){
         navigationView = findViewById(R.id.menuNaviga);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -96,12 +98,11 @@ public class Home extends AppCompatActivity {
                     Toast.makeText(Home.this, item.getItemId()+"", Toast.LENGTH_SHORT).show();
                     drawerLayout.closeDrawers();
                 return true;
-
             }
         });
     }
 
-    public void initRxWebSocketForHome(String url){
+    public void rxWebSocketForHome(String url){
         rxWebSocketForHome = new RxWebSocket(url);
         rxWebSocketForHome.onOpen()
                 .subscribeOn(Schedulers.io())
@@ -141,49 +142,80 @@ public class Home extends AppCompatActivity {
         rxWebSocketForHome.connect();
     }
 
-    public void initRxWebSocketForCategories(String url){
+    public void rxWebSocketForCategories(String url){
         rxWebSocketForCategories = new RxWebSocket(url);
         rxWebSocketForCategories.onOpen()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socketOpenEvent -> {
-                    Log.i("TAG", socketOpenEvent.toString());
+                    //Log.i("TAG", socketOpenEvent.toString());
                 }, Throwable::printStackTrace);
 
         rxWebSocketForCategories.onClosed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socketClosedEvent -> {
-                    Log.i("TAG", socketClosedEvent.toString());
+                    //Log.i("TAG", socketClosedEvent.toString());
                 }, Throwable::printStackTrace);
 
         rxWebSocketForCategories.onClosing()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socketClosingEvent -> {
-                    Log.i("TAG", socketClosingEvent.toString());
+                    //Log.i("TAG", socketClosingEvent.toString());
                 }, Throwable::printStackTrace);
 
         rxWebSocketForCategories.onTextMessage()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socketMessageEvent -> {
-                    ObjectForCategoriesRealtime categoriesRealtime =
+                    CategoryArray categoriesRealtime =
                             new Gson().fromJson(socketMessageEvent.getText(),
-                                    ObjectForCategoriesRealtime.class);
+                                    CategoryArray.class);
 
-                    for (int i = 0; i < categoriesRealtime.getData().size(); i++) {
-                        navigationView.getMenu().add(Menu.FIRST, i, Menu.FIRST,
-                                categoriesRealtime.getData().get(i).getName());
+                    String operationType = categoriesRealtime.getOperationType();
+
+                    Menu menu = navigationView.getMenu();
+
+                    if(operationType.equals("get")) {
+                        for (int i = 0; i < categoriesRealtime.getData().size(); i++) {
+                            menu.add(Menu.FIRST, i, Menu.FIRST,
+                                    categoriesRealtime.getData().get(i).getName());
+                        }
+                        objectForCategoriesRealtime = categoriesRealtime;
                     }
-
+                    else if(operationType.equals("insert")){
+                        menu.add(Menu.FIRST, navigationView.getMenu().size()+1, Menu.FIRST,
+                                categoriesRealtime.getData().get(0).getName());
+                        objectForCategoriesRealtime.getData().add(categoriesRealtime.getData().get(0));
+                    }
+                    else if(operationType.equals("update")){
+                        for(int i = 0; i < menu.size(); i++) {
+                            if(categoriesRealtime.getData().get(0).getId()
+                                    .equals(objectForCategoriesRealtime.getData().get(i).getId())){
+                                menu.getItem(i).setTitle(categoriesRealtime.getData().get(0).getName());
+                                break;
+                            }
+                        }
+                    }
+                    else if(operationType.equals("delete")){
+                        for(int i = 0; i < menu.size(); i++) {
+                            if(categoriesRealtime.getDocumentKey()
+                                    .equals(objectForCategoriesRealtime.getData().get(i).getId())){
+                                objectForCategoriesRealtime.getData()
+                                        .remove(objectForCategoriesRealtime.getData().get(i));
+                                menu.removeItem(menu.getItem(i).getItemId());
+                                break;
+                            }
+                        }
+                    }
                 });
 
         rxWebSocketForCategories.onFailure()
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socketFailureEvent -> {
-                    Log.i("TAG", socketFailureEvent.getResponse().toString());
+                    //Log.i("TAG", socketFailureEvent.getResponse().toString());
                 }, Throwable::printStackTrace);
 
         rxWebSocketForCategories.connect();
@@ -193,17 +225,7 @@ public class Home extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarFoods);
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerMenuHome);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(Home.this, drawerLayout, R.string.open, R.string.close){
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-        };
+        actionBarDrawerToggle = new ActionBarDrawerToggle(Home.this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         Drawable drawable = getResources().getDrawable(R.drawable.ic_menu_black_48dp);
@@ -226,6 +248,7 @@ public class Home extends AppCompatActivity {
         recyclerView.addItemDecoration(customDivider);
         ArrayList<ObjectForRecyclerViewHome> arrayList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
+
             arrayList.add(new ObjectForRecyclerViewHome(R.drawable.thuc_don, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76));
         }
         MyAdapterRecyclerViewHome homeAdapter = new MyAdapterRecyclerViewHome(arrayList, getApplicationContext());

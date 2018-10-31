@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 
 import java.util.List;
-import vn.iotech.restaurant.ObjectOriented.ObjectForGridViewSettingTable;
+import vn.iotech.restaurant.Model.ObjectForGridViewSettingTable;
 import vn.iotech.restaurant.R;
 
 public class MyAdapterSettingTable extends BaseAdapter {

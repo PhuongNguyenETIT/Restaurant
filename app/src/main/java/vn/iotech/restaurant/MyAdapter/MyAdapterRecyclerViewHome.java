@@ -13,7 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.DetailItemRestaurant;
-import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewHome;
+import vn.iotech.restaurant.Model.Category;
+import vn.iotech.restaurant.Model.ObjectForRecyclerViewHome;
 import vn.iotech.restaurant.R;
 
 public class MyAdapterRecyclerViewHome extends RecyclerView.Adapter<MyAdapterRecyclerViewHome.ViewHolder>{

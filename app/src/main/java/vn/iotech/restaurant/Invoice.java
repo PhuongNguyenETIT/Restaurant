@@ -16,7 +16,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.MyAdapter.MyAdapterForRecylerViewInvoice;
-import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewInVoice;
+import vn.iotech.restaurant.Model.ObjectForRecyclerViewInVoice;
 
 public class Invoice extends AppCompatActivity {
 

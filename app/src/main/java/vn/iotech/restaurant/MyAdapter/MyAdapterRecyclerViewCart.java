@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import vn.iotech.restaurant.ObjectOriented.ObjectForRecyclerViewInCart;
+import vn.iotech.restaurant.Model.ObjectForRecyclerViewInCart;
 import vn.iotech.restaurant.R;
 
 public class MyAdapterRecyclerViewCart extends RecyclerView.Adapter<MyAdapterRecyclerViewCart.ViewHolder> {

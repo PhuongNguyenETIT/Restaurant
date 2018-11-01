@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layoutLogin"
     android:orientation="vertical"
     android:background="@color/colorBlack"
     tools:context=".Login">
@@ -117,6 +118,22 @@
         android:layout_marginTop="45dp"
         android:background="@drawable/custom_button_background_reddark"
         app:layout_constraintTop_toBottomOf="@+id/passwordLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="350dp"
+        android:layout_height="60dp" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/buttonSkip"
+        android:text="SKIP"
+        android:textSize="24sp"
+        android:textColor="@color/colorGrayDark"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_button_background_white"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="350dp"

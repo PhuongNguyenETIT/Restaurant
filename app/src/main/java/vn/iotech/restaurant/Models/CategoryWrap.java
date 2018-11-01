@@ -4,7 +4,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CategoryArray extends ObjectBase{
+public class CategoryWrap extends ObjectBase{
 
     @SerializedName("data")
     @Expose

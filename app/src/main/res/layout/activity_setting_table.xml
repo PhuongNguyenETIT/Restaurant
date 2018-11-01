@@ -53,6 +53,7 @@
         android:layout_height="130dp">
 
         <Button
+            android:id="@+id/buttonSaveSettingTable"
             android:text="Save"
             android:textSize="30sp"
             android:textStyle="bold"

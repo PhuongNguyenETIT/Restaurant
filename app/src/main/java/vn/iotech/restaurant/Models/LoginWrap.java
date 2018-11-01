@@ -3,7 +3,7 @@ package vn.iotech.restaurant.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LoginArray extends Authenticate {
+public class LoginWrap extends Authenticate {
 
     @SerializedName("data")
     @Expose

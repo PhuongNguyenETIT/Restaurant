@@ -7,16 +7,16 @@ public class Profile {
 
     @SerializedName("result")
     @Expose
-    private ObjectResultForProfile result;
+    private Result result;
     @SerializedName("role")
     @Expose
     private String role;
 
-    public ObjectResultForProfile getResult() {
+    public Result getResult() {
         return result;
     }
 
-    public void setResult(ObjectResultForProfile result) {
+    public void setResult(Result result) {
         this.result = result;
     }
 

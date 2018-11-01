@@ -23,7 +23,6 @@ import vn.iotech.rxwebsocket.entities.SocketOpenEvent;
 
 public class RxWebSocket {
 
-    private static final String TAG = "RxWebSocket";
     private final WebSocketOnsubscribe webSocketOnsubscribe;
     private PublishProcessor<SocketEvent> eventPublishProcessor = PublishProcessor.create();
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -40,8 +39,6 @@ public class RxWebSocket {
 
     private Flowable<SocketEvent> getEventSource(){
         return eventPublishProcessor.onErrorResumeNext(throwable -> {
-            Log.e(TAG, "RxWebSocket EventSubject internal error occured.");
-            Log.e(TAG, throwable.getMessage());
             throwable.printStackTrace();
             eventPublishProcessor = PublishProcessor.create();
             return eventPublishProcessor;
@@ -50,40 +47,40 @@ public class RxWebSocket {
 
     public Flowable<SocketOpenEvent> onOpen(){
         return getEventSource()
-                .ofType(SocketOpenEvent.class)
-                .doOnEach(new RxWebSocketLogger("onOpen"));
+                .ofType(SocketOpenEvent.class);
+                //.doOnEach(new RxWebSocketLogger("onOpen"));
     }
 
     public Flowable<SocketClosedEvent> onClosed(){
         return getEventSource()
-                .ofType(SocketClosedEvent.class)
-                .doOnEach(new RxWebSocketLogger("onClosed"));
+                .ofType(SocketClosedEvent.class);
+                //.doOnEach(new RxWebSocketLogger("onClosed"));
     }
 
     public Flowable<SocketClosingEvent> onClosing(){
         return getEventSource()
-                .ofType(SocketClosingEvent.class)
-                .doOnEach(new RxWebSocketLogger("onClosing"));
+                .ofType(SocketClosingEvent.class);
+                //.doOnEach(new RxWebSocketLogger("onClosing"));
     }
 
     public Flowable<SocketFailureEvent> onFailure(){
         return getEventSource()
-                .ofType(SocketFailureEvent.class)
-                .doOnEach(new RxWebSocketLogger("onFailure"));
+                .ofType(SocketFailureEvent.class);
+                //.doOnEach(new RxWebSocketLogger("onFailure"));
     }
 
     public Flowable<SocketMessageEvent> onTextMessage(){
         return getEventSource()
                 .ofType(SocketMessageEvent.class)
-                .filter(SocketMessageEvent::isText)
-                .doOnEach(new RxWebSocketLogger("onTextMessage"));
+                .filter(SocketMessageEvent::isText);
+                //.doOnEach(new RxWebSocketLogger("onTextMessage"));
     }
 
     public Flowable<SocketMessageEvent> onBinaryMessage(){
         return getEventSource()
                 .ofType(SocketMessageEvent.class)
-                .filter(event -> !event.isText())
-                .doOnEach(new RxWebSocketLogger("onBinaryMessage"));
+                .filter(event -> !event.isText());
+                //.doOnEach(new RxWebSocketLogger("onBinaryMessage"));
     }
 
     public synchronized void connect(){
@@ -96,7 +93,6 @@ public class RxWebSocket {
                 .subscribe(
                         socketOpenEvent -> webSocket = socketOpenEvent.getWebSocket(),
                         throwable -> {
-                            Log.e(TAG, throwable.getMessage());
                             throwable.printStackTrace();
                         });
 
@@ -106,7 +102,6 @@ public class RxWebSocket {
                 .subscribe(
                         event -> eventPublishProcessor.onNext(event),
                         throwable -> {
-                            Log.e(TAG, throwable.getMessage());
                             throwable.printStackTrace();
                         });
 
@@ -155,7 +150,7 @@ public class RxWebSocket {
                             connectionDisposables.clear();
                             disposables.clear();
                         }, Throwable::printStackTrace));
-                return webSocket.close(1000, "Bye");
+                return webSocket.close(1000, "closed");
             } else {
                 throw new RuntimeException("WebSocket not connected!");
             }

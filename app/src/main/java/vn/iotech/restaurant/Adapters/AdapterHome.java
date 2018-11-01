@@ -13,15 +13,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import vn.iotech.restaurant.DetailItemRestaurant;
+import vn.iotech.restaurant.Models.Food;
+import vn.iotech.restaurant.Models.FoodWrap;
 import vn.iotech.restaurant.Models.ObjectForRecyclerViewHome;
 import vn.iotech.restaurant.R;
 
 public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder>{
 
-    ArrayList<ObjectForRecyclerViewHome> arrayListFoods;
+    ArrayList<Food> arrayListFoods;
     Context context;
 
-    public AdapterHome(ArrayList<ObjectForRecyclerViewHome> arrayListFoods, Context context){
+    public AdapterHome(ArrayList<Food> arrayListFoods, Context context){
         this.arrayListFoods = arrayListFoods;
         this.context = context;
     }
@@ -61,11 +63,11 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.imageViewFood.setImageResource(arrayListFoods.get(position).getImageFoods());
-        holder.textViewDetail.setText(arrayListFoods.get(position).getDetailed());
-        holder.textViewTime.setText(arrayListFoods.get(position).getTime() + " (minutes)");
-        holder.person.setText(arrayListFoods.get(position).getPerson() + " (person)");
-        holder.money.setText(arrayListFoods.get(position).getMoney() + " USD");
+        //holder.imageViewFood.setImageResource(arrayListFoods.get(position).getImageFoods());
+        holder.textViewDetail.setText(arrayListFoods.get(position).getName());
+        holder.textViewTime.setText(arrayListFoods.get(position).getDuring() + " (minutes)");
+        holder.person.setText(arrayListFoods.get(position).getPeople() + " (person)");
+        holder.money.setText(arrayListFoods.get(position).getPrice() +" "+ arrayListFoods.get(position).getUnitPrice());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

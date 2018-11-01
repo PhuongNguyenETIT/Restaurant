@@ -1,10 +1,10 @@
 package vn.iotech.restaurant.Retrofit2;
 
+import vn.iotech.restaurant.ConfigsStatic;
+
 public class APIRetrofitUtils {
 
-    public static final String BaseURL = "http://13.67.35.142:8681";
-
     public static RetrofitDataClient getData(){
-        return RetrofitClient.getClient(BaseURL).create(RetrofitDataClient.class);
+        return RetrofitClient.getClient(ConfigsStatic.domainHttp).create(RetrofitDataClient.class);
     }
 }

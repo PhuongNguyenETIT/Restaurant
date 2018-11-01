@@ -1,6 +1,7 @@
 package vn.iotech.restaurant;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -25,11 +26,11 @@ public class Setting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        ButtonBackToolbar();
+        buttonBackToolbar();
 
     }
 
-    private void ButtonBackToolbar(){
+    private void buttonBackToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbarSetting);
         setSupportActionBar(toolbar);
         Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_back_black_48dp);
@@ -61,7 +62,7 @@ public class Setting extends AppCompatActivity {
         startActivity(new Intent(Setting.this, SettingTable.class));
     }
 
-    public void LogOutSetting(View view){
+    public void logOutSetting(View view){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         view = inflater.inflate(R.layout.custom_dialog_alert, null);
@@ -80,6 +81,11 @@ public class Setting extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
                 Toast.makeText(Setting.this, "LogOut", Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
+                editor.putBoolean("authenticate", false);
+                editor.commit();
+                ConfigsStatic.statusAuthenticate = false;
+                startActivity(new Intent(Setting.this, Home.class));
             }
         });
 

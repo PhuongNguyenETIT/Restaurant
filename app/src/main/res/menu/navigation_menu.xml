@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/menuOutbox"
-        android:title="Outbox (321)"/>
-
-    <item android:title="Drink(543)"
-        android:id="@+id/menuDrink"/>
-
-    <item android:title="Sea Food (324)"
-        android:id="@+id/menuSeaFood" />
-
-    <item android:title="Setting (4234)"
-        android:id="@+id/menuSetting" />
+    <item android:id="@+id/menuHome"
+        android:title="Home (321)"/>
 
 </menu>

@@ -3,6 +3,7 @@ package vn.iotech.restaurant.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
+import vn.iotech.restaurant.ConfigsStatic;
 import vn.iotech.restaurant.DetailItemRestaurant;
 import vn.iotech.restaurant.Models.Food;
 import vn.iotech.restaurant.Models.FoodWrap;
@@ -63,7 +67,9 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //holder.imageViewFood.setImageResource(arrayListFoods.get(position).getImageFoods());
+        Picasso.get().load(ConfigsStatic.domainImage+arrayListFoods.get(position).getImage())
+                .into(holder.imageViewFood);
+
         holder.textViewDetail.setText(arrayListFoods.get(position).getName());
         holder.textViewTime.setText(arrayListFoods.get(position).getDuring() + " (minutes)");
         holder.person.setText(arrayListFoods.get(position).getPeople() + " (person)");

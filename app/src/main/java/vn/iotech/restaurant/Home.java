@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +24,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -56,14 +54,16 @@ public class Home extends AppCompatActivity {
     ArrayList<Food> arrayListFood = new ArrayList<>();
     AdapterHome homeAdapter;
 
-    ViewPager viewPager;
+    Boolean connectedWSHome = false;
+
+    //ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        viewPager = (ViewPager) findViewById(R.id.viewPagerHome);
+        //viewPager = (ViewPager) findViewById(R.id.viewPagerHome);
 
         buttonViewCart = (Button) findViewById(R.id.buttonViewCart);
 
@@ -94,9 +94,9 @@ public class Home extends AppCompatActivity {
 
         selectItemsNavigationView();
 
-        rxWebSocketHome(ConfigsStatic.domainWS + "/api/realtime/food?resId="+ ConfigsStatic.restaurantID);
+        rxWebSocketHome(ConfigsStatic.domainWSHome + ConfigsStatic.restaurantID);
 
-        rxWebSocketCategories(ConfigsStatic.domainWS + "/api/realtime/categories?resId=" + ConfigsStatic.restaurantID);
+        rxWebSocketCategories(ConfigsStatic.domainWSCategory + ConfigsStatic.restaurantID);
 
         buttonBackToolbar();
 
@@ -109,25 +109,35 @@ public class Home extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //item.setChecked(true);
-                RetrofitDataClient client = APIRetrofitUtils.getData();
-                Call<FoodWrap> call = client.getCategoryFood(categoryWrap.getData().get(item.getItemId()).getId());
-                call.enqueue(new Callback<FoodWrap>() {
-                    @Override
-                    public void onResponse(Call<FoodWrap> call, Response<FoodWrap> response) {
-                        if(response.isSuccessful()){
-                            if(response.body().getData().size()>0) {
-                                Log.i("TAG", response.body().getData().get(0).getName());
+                if(item.getItemId() == R.id.menuHome){
+                    if(!connectedWSHome){
+                        rxWebSocketHome(ConfigsStatic.domainWSHome + ConfigsStatic.restaurantID);
+                    }
+                }
+                else {
+                    RetrofitDataClient client = APIRetrofitUtils.getData();
+                    Call<FoodWrap> call = client.getCategoryFood(categoryWrap.getData().get(item.getItemId()).getId());
+                    call.enqueue(new Callback<FoodWrap>() {
+                        @Override
+                        public void onResponse(Call<FoodWrap> call, Response<FoodWrap> response) {
+                            if(response.isSuccessful()){
+                                disconnectWSHome();
+                                arrayListFood.clear();
+                                if(response.body().getData().size()>0) {
+                                    for (int i=0; i < response.body().getData().size(); i++) {
+                                        arrayListFood.add(response.body().getData().get(i));
+                                    }
+                                }
+                                homeAdapter.notifyDataSetChanged();
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<FoodWrap> call, Throwable t) {
-                        Log.i("TAG", "cateFail");
-                    }
-                });
-                Toast.makeText(Home.this, item.getItemId()+"", Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onFailure(Call<FoodWrap> call, Throwable t) {
+                            Log.i("TAG", "cateFail");
+                        }
+                    });
+                }
                 drawerLayout.closeDrawers();
                 return true;
             }
@@ -141,6 +151,7 @@ public class Home extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socketOpenEvent -> {
                     //Log.i("TAG", "socketStart");
+                    connectedWSHome = true;
                 }, Throwable::printStackTrace);
 
         rxWebSocketHome.onClosed()
@@ -161,9 +172,30 @@ public class Home extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socketMessageEvent -> {
-                    FoodWrap foodWrap = new Gson().fromJson(socketMessageEvent.getText(), FoodWrap.class);
-                    for(int i = 0; i < foodWrap.getData().size(); i++){
-                        arrayListFood.add(foodWrap.getData().get(i));
+                    FoodWrap foodwrapRealtime = new Gson().fromJson(socketMessageEvent.getText(), FoodWrap.class);
+                    if(foodwrapRealtime.getOperationType().equals("get")) {
+                        arrayListFood.clear();
+                        for (int i = 0; i < foodwrapRealtime.getData().size(); i++) {
+                            arrayListFood.add(foodwrapRealtime.getData().get(i));
+                        }
+                    }
+                    else if(foodwrapRealtime.getOperationType().equals("insert")){
+                        arrayListFood.add(foodwrapRealtime.getData().get(0));
+                    }
+                    else if(foodwrapRealtime.getOperationType().equals("update")){
+                        for (int i = 0; i < arrayListFood.size(); i++){
+                            if(foodwrapRealtime.getData().get(0).getId().equals(arrayListFood.get(i).getId())){
+                                arrayListFood.set(i, foodwrapRealtime.getData().get(0));
+                            }
+                        }
+                    }
+                    else if(foodwrapRealtime.getOperationType().equals("delete")){
+                        for(int i = 0; i < arrayListFood.size(); i++) {
+                            if(arrayListFood.get(i).getId().equals(foodwrapRealtime.getDocumentKey())){
+                                arrayListFood.remove(i);
+                                break;
+                            }
+                        }
                     }
                     homeAdapter.notifyDataSetChanged();
                 });
@@ -229,7 +261,8 @@ public class Home extends AppCompatActivity {
                         for(int i = 0; i < menu.size(); i++) {
                             if(categoriesRealtime.getData().get(0).getId()
                                     .equals(categoryWrap.getData().get(i).getId())){
-                                menu.getItem(i).setTitle(categoriesRealtime.getData().get(0).getName());
+                                categoryWrap.getData().set(i, categoriesRealtime.getData().get(0));
+                                menu.getItem(i).setTitle(categoryWrap.getData().get(i).getName());
                                 break;
                             }
                         }
@@ -240,6 +273,7 @@ public class Home extends AppCompatActivity {
                                     .equals(categoryWrap.getData().get(i).getId())){
                                 categoryWrap.getData()
                                         .remove(categoryWrap.getData().get(i));
+                                categoryWrap.getData().remove(i);
                                 menu.removeItem(menu.getItem(i).getItemId());
                                 break;
                             }
@@ -294,17 +328,26 @@ public class Home extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void disconnectWSHome(){
         rxWebSocketHome.close()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(success -> {}, Throwable::printStackTrace);
+                .subscribe(success -> {connectedWSHome = false;}
+                ,Throwable::printStackTrace);
+    }
 
+    private void disconnectWSCategories(){
         rxWebSocketCategories.close()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(success -> {},Throwable::printStackTrace);
+                .subscribe(success -> {}
+                ,Throwable::printStackTrace);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        disconnectWSHome();
+        disconnectWSCategories();
     }
 }

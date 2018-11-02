@@ -26,6 +26,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.0.0'
     implementation 'com.android.support:support-v4:26.0.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
@@ -43,4 +44,5 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.3"
     implementation project(path: ':rxwebsocket')
     implementation 'com.squareup.okio:okio:2.1.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

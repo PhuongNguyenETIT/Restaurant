@@ -22,10 +22,10 @@ public interface RetrofitDataClient {
     Call<LoginWrap> getDataLogin(@Body Object login);
 
     @Headers("Content-Type: application/json")
-    @GET("/api/user/profile")
+    @GET("/user/profile")
     Call<ProfileWrap> getProfile(@Header("Authorization") String token);
 
     @Headers("Content-Type: application/json")
-    @GET("/api/food/bycategory/{id}")
+    @GET("/food/bycategory/{id}")
     Call<FoodWrap> getCategoryFood(@Path("id") String id);
 }

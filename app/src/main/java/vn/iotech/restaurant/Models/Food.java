@@ -39,9 +39,6 @@ public class Food {
     @SerializedName("during")
     @Expose
     private Integer during;
-    @SerializedName("description")
-    @Expose
-    private String description;
     @SerializedName("_createTime")
     @Expose
     private String createTime;
@@ -135,14 +132,6 @@ public class Food {
 
     public void setDuring(Integer during) {
         this.during = during;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getCreateTime() {

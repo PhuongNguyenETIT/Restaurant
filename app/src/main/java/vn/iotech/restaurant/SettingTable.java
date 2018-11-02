@@ -11,18 +11,28 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import vn.iotech.restaurant.Adapters.AdapterSettingTable;
+import vn.iotech.restaurant.Models.FoodWrap;
 import vn.iotech.restaurant.Models.ObjectForGridViewSettingTable;
+import vn.iotech.rxwebsocket.RxWebSocket;
 
 public class SettingTable extends AppCompatActivity {
 
     Toolbar toolbar;
+    private RxWebSocket rxWebSocketTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +40,8 @@ public class SettingTable extends AppCompatActivity {
         setContentView(R.layout.activity_setting_table);
 
         buttonBackToolbar();
+
+        rxWebSocketTable(ConfigsStatic.domainWSTable + ConfigsStatic.restaurantID);
 
         gridViewTabbleSetting();
 
@@ -41,6 +53,7 @@ public class SettingTable extends AppCompatActivity {
                     SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
                     editor.putInt("numbertable", ConfigsStatic.numberTable);
                     editor.commit();
+                    Toast.makeText(SettingTable.this, "Saved", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(SettingTable.this,
@@ -48,6 +61,54 @@ public class SettingTable extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void rxWebSocketTable(String url){
+        rxWebSocketTable = new RxWebSocket(url);
+        rxWebSocketTable.onOpen()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socketOpenEvent -> {
+                    //Log.i("TAG", "socketStart");
+                }, Throwable::printStackTrace);
+
+        rxWebSocketTable.onClosed()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socketClosedEvent -> {
+                    //Log.i("TAG", socketClosedEvent.toString());
+                }, Throwable::printStackTrace);
+
+        rxWebSocketTable.onClosing()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socketClosingEvent -> {
+                    //Log.i("TAG", socketClosingEvent.toString());
+                }, Throwable::printStackTrace);
+
+        rxWebSocketTable.onTextMessage()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socketMessageEvent -> {
+                    Log.i("TAG", socketMessageEvent.getText().toString());
+                });
+
+        rxWebSocketTable.onFailure()
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socketFailureEvent -> {
+                    //Log.i("TAG", socketFailureEvent.getResponse().toString());
+                }, Throwable::printStackTrace);
+
+        rxWebSocketTable.connect();
+    }
+
+    private void disconnectWSTable(){
+        rxWebSocketTable.close()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(success -> {}
+                        ,Throwable::printStackTrace);
     }
 
     private void gridViewTabbleSetting(){
@@ -102,4 +163,9 @@ public class SettingTable extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        disconnectWSTable();
+    }
 }

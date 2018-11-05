@@ -85,7 +85,8 @@ public class Setting extends AppCompatActivity {
                 editor.putBoolean("authenticate", false);
                 editor.commit();
                 ConfigsStatic.statusAuthenticate = false;
-                startActivity(new Intent(Setting.this, Home.class));
+                startActivity(new Intent(Setting.this, Home.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
 

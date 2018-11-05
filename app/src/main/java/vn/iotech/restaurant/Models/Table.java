@@ -8,6 +8,9 @@ public class Table {
     @SerializedName("_id")
     @Expose
     private String id;
+    @SerializedName("setting")
+    @Expose
+    private Boolean setting;
     @SerializedName("_restaurantId")
     @Expose
     private String restaurantId;
@@ -27,6 +30,14 @@ public class Table {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getSetting() {
+        return setting;
+    }
+
+    public void setSetting(Boolean setting) {
+        this.setting = setting;
     }
 
     public String getRestaurantId() {
@@ -60,5 +71,4 @@ public class Table {
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
-
 }

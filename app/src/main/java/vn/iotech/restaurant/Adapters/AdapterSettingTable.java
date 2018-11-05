@@ -1,6 +1,8 @@
 package vn.iotech.restaurant.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +13,20 @@ import android.widget.TextView;
 
 
 import java.util.List;
+
+import vn.iotech.restaurant.ConfigsStatic;
 import vn.iotech.restaurant.Models.ObjectForGridViewSettingTable;
+import vn.iotech.restaurant.Models.Table;
+import vn.iotech.restaurant.Models.TableWrap;
 import vn.iotech.restaurant.R;
 
 public class AdapterSettingTable extends BaseAdapter {
 
     private Context context;
     private int layout;
-    private List<ObjectForGridViewSettingTable> tableConfigList;
+    private List<Table> tableConfigList;
 
-    public AdapterSettingTable(Context context, int layout, List<ObjectForGridViewSettingTable> tableConfigList) {
+    public AdapterSettingTable(Context context, int layout, List<Table> tableConfigList) {
         this.context = context;
         this.layout = layout;
         this.tableConfigList = tableConfigList;
@@ -44,7 +50,6 @@ public class AdapterSettingTable extends BaseAdapter {
     private class ViewHolder{
         TextView textViewName;
         RelativeLayout relativeLayout;
-        ImageView imageViewBooking;
     }
 
     @Override
@@ -56,17 +61,32 @@ public class AdapterSettingTable extends BaseAdapter {
             view = inflater.inflate(layout, null);
             viewHolder.textViewName = (TextView) view.findViewById(R.id.textViewNameTable);
             viewHolder.relativeLayout = (RelativeLayout) view.findViewById(R.id.layoutTabblSetting);
-            viewHolder.imageViewBooking = (ImageView) view.findViewById(R.id.imageViewBookingTable);
             view.setTag(viewHolder);
         }
         else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        ObjectForGridViewSettingTable ojectTableConfig = tableConfigList.get(i);
-        viewHolder.textViewName.setText(ojectTableConfig.getNameTable());
-        //viewHolder.textViewName.setBackgroundResource(ojectTableConfig.getBackgroundTable());
-        viewHolder.imageViewBooking.setImageResource(ojectTableConfig.getImageBooking());
-        viewHolder.relativeLayout.setBackgroundResource(ojectTableConfig.getBackgroundTable());
+        Table table = tableConfigList.get(i);
+        viewHolder.textViewName.setText(table.getName());
+        if(table.getSetting()){
+            viewHolder.textViewName.setTextColor(Color.argb(255, 153, 0, 51));
+            if(table.getId().equals(ConfigsStatic.idTable)){
+                viewHolder.textViewName.setTextColor(Color.GREEN);
+                viewHolder.relativeLayout.setBackgroundResource(R.drawable.custom_button_background_reddark);
+            }
+        }
+        else {
+            viewHolder.relativeLayout.setBackgroundResource(R.drawable.custom_button_background_white_dark);
+            viewHolder.textViewName.setTextColor(Color.BLACK);
+        }
         return view;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        if(tableConfigList.get(position).getSetting()) {
+            return false;
+        }
+        return true;
     }
 }

@@ -48,13 +48,6 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder>{
             person = (TextView) itemView.findViewById(R.id.textViewPerson);
             money = (TextView) itemView.findViewById(R.id.textViewMoney);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.layoutClickRecylerView);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(context, DetailItemFood.class);
-//                    view.getContext().startActivity(intent);
-//                }
-//            });
         }
     }
 

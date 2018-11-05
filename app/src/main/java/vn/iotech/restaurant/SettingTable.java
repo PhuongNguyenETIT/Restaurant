@@ -11,37 +11,44 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.util.ArrayList;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.iotech.restaurant.Adapters.AdapterSettingTable;
-import vn.iotech.restaurant.Models.FoodWrap;
-import vn.iotech.restaurant.Models.ObjectForGridViewSettingTable;
+import vn.iotech.restaurant.Models.RequestWrap;
+import vn.iotech.restaurant.Models.Table;
+import vn.iotech.restaurant.Models.TableWrap;
+import vn.iotech.restaurant.Retrofit2.APIRetrofitUtils;
+import vn.iotech.restaurant.Retrofit2.RetrofitDataClient;
 import vn.iotech.rxwebsocket.RxWebSocket;
 
 public class SettingTable extends AppCompatActivity {
 
     Toolbar toolbar;
     private RxWebSocket rxWebSocketTable;
+    ArrayList<Table> arrayListTable = new ArrayList<>();
+    AdapterSettingTable adapterConfigTable;
+    GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_table);
 
-        buttonBackToolbar();
+        ConfigsStatic.idTable = ConfigsStatic.sharedPreferences.getString("idTable", "");
 
-        rxWebSocketTable(ConfigsStatic.domainWSTable + ConfigsStatic.restaurantID);
+        buttonBackToolbar();
 
         gridViewTabbleSetting();
 
@@ -49,18 +56,55 @@ public class SettingTable extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ConfigsStatic.numberTable >= 0){
-                    SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
-                    editor.putInt("numbertable", ConfigsStatic.numberTable);
-                    editor.commit();
-                    Toast.makeText(SettingTable.this, "Saved", Toast.LENGTH_SHORT).show();
+                if(ConfigsStatic.idTable != ""){
+                    JsonArray jsonArray = new JsonArray();
+                    JsonObject jsonObject1 = new JsonObject();
+                    jsonObject1.addProperty("_id", ConfigsStatic.idTable);
+                    jsonObject1.addProperty("_restaurantId", ConfigsStatic.restaurantID);
+                    jsonObject1.addProperty("setting", true);
+                    if(ConfigsStatic.sharedPreferences.getString("idTable", "") != ""){
+                        JsonObject jsonObject2 = new JsonObject();
+                        jsonObject2.addProperty("_id", ConfigsStatic.sharedPreferences.getString("idTable", ""));
+                        jsonObject2.addProperty("_restaurantId", ConfigsStatic.restaurantID);
+                        jsonObject2.addProperty("setting", false);
+                        jsonArray.add(jsonObject2);
+                    }
+                    jsonArray.add(jsonObject1);
+
+                    RetrofitDataClient client = APIRetrofitUtils.getData();
+                    Call<RequestWrap> call = client.settingTable(ConfigsStatic.token, jsonArray);
+                    call.enqueue(new Callback<RequestWrap>() {
+                        @Override
+                        public void onResponse(Call<RequestWrap> call, Response<RequestWrap> response) {
+                            if(response.isSuccessful()) {
+                                if(response.body().getData().getLength() == 1) {
+                                    SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
+                                    editor.putString("idTable", ConfigsStatic.idTable);
+                                    editor.commit();
+                                    Toast.makeText(SettingTable.this, "Saved", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(SettingTable.this, "Save error", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RequestWrap> call, Throwable t) {
+                            Toast.makeText(SettingTable.this, "Save error. Can not connect to the system.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 else {
-                    Toast.makeText(SettingTable.this,
-                            "You have not set the number of tables", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingTable.this, "You have not set the number of tables.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        rxWebSocketTable(ConfigsStatic.domainWSTable + ConfigsStatic.restaurantID);
+
     }
 
     public void rxWebSocketTable(String url){
@@ -90,7 +134,36 @@ public class SettingTable extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socketMessageEvent -> {
-                    Log.i("TAG", socketMessageEvent.getText().toString());
+                    TableWrap tableWrap = new Gson().fromJson(socketMessageEvent.getText(), TableWrap.class);
+                    if(tableWrap.getOperationType().equals("get")){
+                        arrayListTable.clear();
+                        for (int i = 0; i < tableWrap.getData().size(); i++) {
+                            arrayListTable.add(tableWrap.getData().get(i));
+                        }
+                    }
+                    else if(tableWrap.getOperationType().equals("insert")){
+                        arrayListTable.add(tableWrap.getData().get(0));
+                    }
+                    else if(tableWrap.getOperationType().equals("update")){
+                        for (int i = 0; i < arrayListTable.size(); i++){
+                            if(arrayListTable.get(i).getId().equals(tableWrap.getDocumentKey())){
+                                arrayListTable.set(i, tableWrap.getData().get(0));
+                                break;
+                            }
+                        }
+                    }
+                    else if (tableWrap.getOperationType().equals("delete")){
+                        for (int i = 0; i < arrayListTable.size(); i++){
+                            if(arrayListTable.get(i).getId().equals(tableWrap.getDocumentKey())){
+                                arrayListTable.remove(i);
+                                SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
+                                editor.remove("idTable");
+                                editor.commit();
+                                break;
+                            }
+                        }
+                    }
+                    adapterConfigTable.notifyDataSetChanged();
                 });
 
         rxWebSocketTable.onFailure()
@@ -112,32 +185,25 @@ public class SettingTable extends AppCompatActivity {
     }
 
     private void gridViewTabbleSetting(){
-        GridView gridView = (GridView) findViewById(R.id.gridViewDialogConfigTable);
-        final ArrayList<ObjectForGridViewSettingTable> arrayList;
-        final AdapterSettingTable adapterConfigTable;
-        arrayList = new ArrayList<>();
-        for (int i = 1; i < 20; i++){
-            for (int j = 1; j < 5; j++){
-                arrayList.add(new ObjectForGridViewSettingTable(i*100 + j + "", R.drawable.custom_button_background_white_dark,
-                        R.drawable.ic_shopping_cart_c9c9c9_24dp));
-            }
-        }
-        if(ConfigsStatic.numberTable >= 0){
-            arrayList.get(ConfigsStatic.numberTable).setBackgroundTable(R.drawable.custom_button_background_reddark);
-        }
-        adapterConfigTable = new AdapterSettingTable(this, R.layout.custom_table_setting, arrayList);
+        gridView = (GridView) findViewById(R.id.gridViewDialogConfigTable);
+        adapterConfigTable = new AdapterSettingTable(this, R.layout.custom_table_setting, arrayListTable);
         gridView.setAdapter(adapterConfigTable);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressLint("WrongConstant")
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(SettingTable.this, arrayList.get(i).getNameTable(), 100).show();
-                arrayList.get(i).setBackgroundTable(R.drawable.custom_button_background_reddark);
-                if(ConfigsStatic.numberTable >= 0 && ConfigsStatic.numberTable != i){
-                    arrayList.get(ConfigsStatic.numberTable).setBackgroundTable(R.drawable.custom_button_background_white_dark);
+                view.setBackgroundResource(R.drawable.custom_button_background_reddark);
+                if(ConfigsStatic.idTable != "" && ConfigsStatic.idTable != arrayListTable.get(i).getId()){
+                    for (int j = 0; j < arrayListTable.size(); j++){
+                        if(arrayListTable.get(j).getId().equals(ConfigsStatic.idTable)){
+                            view = gridView.getChildAt(j);
+                            view.setBackgroundResource(R.drawable.custom_button_background_white_dark);
+                            break;
+                        }
+                    }
                 }
-                ConfigsStatic.numberTable = i;
-                adapterConfigTable.notifyDataSetChanged();
+                ConfigsStatic.idTable = arrayListTable.get(i).getId();
+                Toast.makeText(SettingTable.this, arrayListTable.get(i).getName(), 100).show();
             }
         });
     }
@@ -157,8 +223,15 @@ public class SettingTable extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SettingTable.this, Setting.class);
-                startActivity(intent);
+                String table = ConfigsStatic.sharedPreferences.getString("idTable", "");
+                if(table != "") {
+                    Intent intent = new Intent(SettingTable.this, Setting.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(SettingTable.this, "You have not set the number of tables",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

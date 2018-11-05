@@ -184,8 +184,9 @@ public class Home extends AppCompatActivity {
                     }
                     else if(foodwrapRealtime.getOperationType().equals("update")){
                         for (int i = 0; i < arrayListFood.size(); i++){
-                            if(foodwrapRealtime.getData().get(0).getId().equals(arrayListFood.get(i).getId())){
+                            if(arrayListFood.get(i).getId().equals(foodwrapRealtime.getDocumentKey())){
                                 arrayListFood.set(i, foodwrapRealtime.getData().get(0));
+                                break;
                             }
                         }
                     }

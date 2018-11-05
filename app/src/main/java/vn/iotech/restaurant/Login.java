@@ -32,7 +32,8 @@ public class Login extends AppCompatActivity {
         ConfigsStatic.sharedPreferences = getSharedPreferences("comfigs", MODE_PRIVATE);
         ConfigsStatic.restaurantID = ConfigsStatic.sharedPreferences.getString("restaurantId", "");
         ConfigsStatic.statusAuthenticate = ConfigsStatic.sharedPreferences.getBoolean("authenticate", false);
-        ConfigsStatic.numberTable = ConfigsStatic.sharedPreferences.getInt("numbertable", -1);
+        ConfigsStatic.idTable = ConfigsStatic.sharedPreferences.getString("idTable", "");
+        ConfigsStatic.token = ConfigsStatic.sharedPreferences.getString("token", "");
 
         if (ConfigsStatic.restaurantID != ""){
             if(!ConfigsStatic.statusAuthenticate){
@@ -46,8 +47,14 @@ public class Login extends AppCompatActivity {
                 });
             }
             else if(!settingCallback) {
-                startActivity(new Intent(Login.this, Home.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                if(ConfigsStatic.idTable != "") {
+                    startActivity(new Intent(Login.this, Home.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                }
+                else {
+                    startActivity(new Intent(Login.this, SettingTable.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                }
             }
         }
 
@@ -78,7 +85,11 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this, response.body().getMessage(),Toast.LENGTH_SHORT).show();
                                 }
                                 else if(response.body().getData().getAuth()){
-                                    getProfile(response.body().getData().getToken());
+                                    ConfigsStatic.token = response.body().getData().getToken();
+                                    SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
+                                    editor.putString("token", ConfigsStatic.token);
+                                    editor.commit();
+                                    getProfile(ConfigsStatic.token);
                                 }
                             }
                         }
@@ -110,7 +121,7 @@ public class Login extends AppCompatActivity {
                         editor.putBoolean("authenticate", true);
                         editor.commit();
                         ConfigsStatic.statusAuthenticate = true;
-                        if(ConfigsStatic.numberTable >= 0){
+                        if(ConfigsStatic.idTable != ""){
                             startActivity(new Intent(Login.this, Home.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         }

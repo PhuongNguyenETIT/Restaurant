@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -35,11 +36,13 @@ import vn.iotech.rxwebsocket.RxWebSocket;
 
 public class SettingTable extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
     private RxWebSocket rxWebSocketTable;
-    ArrayList<Table> arrayListTable = new ArrayList<>();
-    AdapterSettingTable adapterConfigTable;
-    GridView gridView;
+    private ArrayList<Table> arrayListTable = new ArrayList<>();
+    private AdapterSettingTable adapterConfigTable;
+    private GridView gridView;
+
+    private Boolean changeTable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,7 @@ public class SettingTable extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ConfigsStatic.idTable != ""){
+                if(ConfigsStatic.idTable != "" && changeTable){
                     JsonArray jsonArray = new JsonArray();
                     JsonObject jsonObject1 = new JsonObject();
                     jsonObject1.addProperty("_id", ConfigsStatic.idTable);
@@ -80,8 +83,10 @@ public class SettingTable extends AppCompatActivity {
                                 if(response.body().getData().getLength() == 1) {
                                     SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
                                     editor.putString("idTable", ConfigsStatic.idTable);
+                                    editor.putString("nameTable", ConfigsStatic.nameTableConfig);
                                     editor.commit();
                                     Toast.makeText(SettingTable.this, "Saved", Toast.LENGTH_SHORT).show();
+                                    changeTable = false;
                                 }
                                 else {
                                     Toast.makeText(SettingTable.this, "Save error", Toast.LENGTH_SHORT).show();
@@ -97,7 +102,7 @@ public class SettingTable extends AppCompatActivity {
                     });
                 }
                 else {
-                    Toast.makeText(SettingTable.this, "You have not set the number of tables.",
+                    Toast.makeText(SettingTable.this, "You have not set a new table.",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -203,6 +208,8 @@ public class SettingTable extends AppCompatActivity {
                     }
                 }
                 ConfigsStatic.idTable = arrayListTable.get(i).getId();
+                ConfigsStatic.nameTableConfig = arrayListTable.get(i).getName();
+                changeTable = true;
                 Toast.makeText(SettingTable.this, arrayListTable.get(i).getName(), 100).show();
             }
         });
@@ -226,7 +233,7 @@ public class SettingTable extends AppCompatActivity {
                 String table = ConfigsStatic.sharedPreferences.getString("idTable", "");
                 if(table != "") {
                     Intent intent = new Intent(SettingTable.this, Setting.class);
-                    startActivity(intent);
+                    startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 }
                 else {
                     Toast.makeText(SettingTable.this, "You have not set the number of tables",

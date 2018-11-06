@@ -1,5 +1,6 @@
 package vn.iotech.restaurant.Retrofit2;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -9,6 +10,8 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import vn.iotech.restaurant.ConfigsStatic;
+import vn.iotech.restaurant.Models.DetailFood;
+import vn.iotech.restaurant.Models.DetailFoodWrap;
 import vn.iotech.restaurant.Models.FoodWrap;
 import vn.iotech.restaurant.Models.LoginWrap;
 import vn.iotech.restaurant.Models.ProfileWrap;
@@ -31,4 +34,12 @@ public interface RetrofitDataClient {
     @Headers("Content-Type: application/json")
     @PUT(ConfigsStatic.version_domain + "/table/setting/update")
     Call<RequestWrap> settingTable(@Header("Authorization") String idRes, @Body Object data);
+
+    @Headers("Content-Type: application/json")
+    @GET(ConfigsStatic.version_domain + "/food/{id}")
+    Call<DetailFoodWrap> getDetialFood(@Path("id") String id);
+
+//    @Headers("Content-Type: application/json")
+//    @GET(ConfigsStatic.version_domain + "/food/{id}")
+//    Observable<DetailFoodWrap> getDetialFood(@Path("id") String id);
 }

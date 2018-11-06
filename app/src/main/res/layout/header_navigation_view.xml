@@ -13,11 +13,11 @@
         app:civ_border_width="5dp"
         app:civ_border_color="@color/colorWhite"
         android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/avatar_android" />
+        android:layout_height="120dp"/>
 
 
     <TextView
+        android:id="@+id/textViewNameRestaurant"
         android:text="Name You"
         android:textStyle="bold"
         android:textSize="24sp"

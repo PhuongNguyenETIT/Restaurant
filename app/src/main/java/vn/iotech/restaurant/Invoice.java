@@ -20,19 +20,19 @@ import vn.iotech.restaurant.Models.ObjectForRecyclerViewInVoice;
 
 public class Invoice extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice);
 
-        ButtonBackToolbar();
+        buttonBackToolbar();
 
         InitRecyclerView();
     }
 
-    private void ButtonBackToolbar() {
+    private void buttonBackToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbarInvoice);
         setSupportActionBar(toolbar);
 
@@ -50,7 +50,7 @@ public class Invoice extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Invoice.this, Cart.class);
-                startActivity(intent);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
     }
@@ -71,14 +71,4 @@ public class Invoice extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 }
-
-//        listView = (ListView) findViewById(R.id.listViewInvoice);
-//                arrayList = new ArrayList<>();
-//        adapterListViewInvoice = new AdapterListViewInvoice(this, R.layout.items_recycler_view_invoice, arrayList);
-//        listView.setAdapter(adapterListViewInvoice);
-//        for (int i = 1; i <=20; i++){
-//        arrayList.add(new OjectForRecyclerViewInVoice(i, "French Fries Recipe | Steffi's Recipes French Fries Recipe | Steffi's Recipes",
-//        34, 423.02));
-//        }
-//        adapterListViewInvoice.notifyDataSetChanged();
 

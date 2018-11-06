@@ -42,7 +42,7 @@ public class Cart extends AppCompatActivity {
 
         mapped();
 
-        ButtonBackToolbar();
+        buttonBackToolbar();
 
         initRecyclerViewCart();
         buttonInvoice.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class Cart extends AppCompatActivity {
         });
     }
 
-    private void ButtonBackToolbar() {
+    private void buttonBackToolbar() {
         setSupportActionBar(toolbar);
         Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_back_black_48dp);
         Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
@@ -96,7 +96,7 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Cart.this, Home.class);
-                startActivity(intent);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
     }

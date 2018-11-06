@@ -23,9 +23,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
@@ -35,6 +40,7 @@ import vn.iotech.restaurant.Adapters.AdapterHome;
 import vn.iotech.restaurant.Models.CategoryWrap;
 import vn.iotech.restaurant.Models.Food;
 import vn.iotech.restaurant.Models.FoodWrap;
+import vn.iotech.restaurant.Models.RestaurantWrap;
 import vn.iotech.restaurant.Retrofit2.APIRetrofitUtils;
 import vn.iotech.restaurant.Retrofit2.RetrofitDataClient;
 import vn.iotech.rxwebsocket.RxWebSocket;
@@ -46,24 +52,29 @@ public class Home extends AppCompatActivity {
     Toolbar toolbar;
 
     Button buttonViewCart;
-    TextView textViewItems;
-    NavigationView navigationView;
+    private TextView textViewItems;
+    private NavigationView navigationView;
+    private CircleImageView imageViewAvatar;
+    private TextView textViewNameRestaurant;
 
-    RxWebSocket rxWebSocketHome, rxWebSocketCategories;
-    CategoryWrap categoryWrap = null;
-    ArrayList<Food> arrayListFood = new ArrayList<>();
-    AdapterHome homeAdapter;
-
+    private RxWebSocket rxWebSocketHome, rxWebSocketCategories, rxWebSocketRestaurant;
+    private CategoryWrap categoryWrap = null;
+    private ArrayList<Food> arrayListFood = new ArrayList<>();
+    private AdapterHome homeAdapter;
     Boolean connectedWSHome = false;
-
-    //ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //viewPager = (ViewPager) findViewById(R.id.viewPagerHome);
+        selectItemsNavigationView();
+
+        initRecyclerView();
+
+        rxWebSocketHome(ConfigsStatic.domainWSHome + ConfigsStatic.restaurantID);
+
+        rxWebSocketCategories(ConfigsStatic.domainWSCategory + ConfigsStatic.restaurantID);
 
         buttonViewCart = (Button) findViewById(R.id.buttonViewCart);
 
@@ -92,19 +103,15 @@ public class Home extends AppCompatActivity {
         String txt = "There are <font color='red'>14</font> items in Cart";
         textViewItems.setText(Html.fromHtml(txt), TextView.BufferType.SPANNABLE);
 
-        selectItemsNavigationView();
-
-        rxWebSocketHome(ConfigsStatic.domainWSHome + ConfigsStatic.restaurantID);
-
-        rxWebSocketCategories(ConfigsStatic.domainWSCategory + ConfigsStatic.restaurantID);
-
         buttonBackToolbar();
-
-        initRecyclerView();
+        rxWebSocketRestaurant(ConfigsStatic.domainWSRestaurant + ConfigsStatic.restaurantID);
     }
 
     private void selectItemsNavigationView(){
         navigationView = findViewById(R.id.menuNaviga);
+        View view = navigationView.getHeaderView(0);
+        imageViewAvatar = (CircleImageView) view.findViewById(R.id.imageAvatar);
+        textViewNameRestaurant = (TextView) view.findViewById(R.id.textViewNameRestaurant);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -290,6 +297,30 @@ public class Home extends AppCompatActivity {
                 }, Throwable::printStackTrace);
 
         rxWebSocketCategories.connect();
+    }
+
+    public void rxWebSocketRestaurant(String url){
+
+        rxWebSocketRestaurant = new RxWebSocket(url);
+
+        rxWebSocketRestaurant.onTextMessage()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socketMessageEvent -> {
+                    RestaurantWrap restaurantWrap = new Gson()
+                            .fromJson(socketMessageEvent.getText(), RestaurantWrap.class);
+
+                    String operationType = restaurantWrap.getOperationType();
+
+                    if(operationType.equals("get")){
+                        Picasso.get().load(ConfigsStatic.domainImage+restaurantWrap.getData().get(0).getIcon())
+                        .error(R.drawable.default_image)
+                        .into(imageViewAvatar);
+                        textViewNameRestaurant.setText(restaurantWrap.getData().get(0).getName());
+                    }
+                });
+
+        rxWebSocketRestaurant.connect();
     }
 
     private void buttonBackToolbar() {

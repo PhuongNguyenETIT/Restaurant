@@ -9,22 +9,63 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.iotech.restaurant.Models.DetailFoodWrap;
+import vn.iotech.restaurant.Retrofit2.APIRetrofitUtils;
+import vn.iotech.restaurant.Retrofit2.RetrofitDataClient;
 
 public class DetailItemRestaurant extends AppCompatActivity {
 
-    Toolbar toolbar;
-    TextView textViewInforDetailFood;
+    private Toolbar toolbar;
+    private TextView textViewDetailFood, textViewMoney,
+            textViewPerson, textViewDuring, nameOfFood;
+    private ImageView imageViewDetailFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_item_restaurant);
+
         mapped();
+        buttonBackToolbar();
 
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("byID");
+        RetrofitDataClient client = APIRetrofitUtils.getData();
+        Call<DetailFoodWrap> call = client.getDetialFood(id);
+        call.enqueue(new Callback<DetailFoodWrap>() {
+            @Override
+            public void onResponse(Call<DetailFoodWrap> call, Response<DetailFoodWrap> response) {
+                if(response.isSuccessful()){
+                    nameOfFood.setText(response.body().getData().getName());
+                    Picasso.get().load(ConfigsStatic.domainImage + response.body().getData().getImage())
+                            .error(R.drawable.default_image)
+                            .into(imageViewDetailFood);
+                    textViewMoney.setText(response.body().getData().getPrice()+" "
+                            +response.body().getData().getUnitPrice());
+                    textViewDuring.setText(response.body().getData().getDuring()+" (minutes)");
+                    textViewPerson.setText(response.body().getData().getPeople()+" (person)");
+                    textViewDetailFood.setText(response.body().getData().getDescription());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailFoodWrap> call, Throwable t) {
+                Log.i("TAG", t.getMessage());
+            }
+        });
+    }
+
+    private void buttonBackToolbar(){
+        toolbar = (Toolbar) findViewById(R.id.toolbarDetailFood);
         setSupportActionBar(toolbar);
-
         Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_back_black_48dp);
 
         Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
@@ -39,15 +80,18 @@ public class DetailItemRestaurant extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DetailItemRestaurant.this, Home.class);
-                startActivity(intent);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
-        textViewInforDetailFood.setText("Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography.Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography. Learn how to customize Material Design to change the look and feel of your UI, expressing brand and style through elements like color, shape, typography, and iconography.");
-        textViewInforDetailFood.append("    ");
     }
 
     private void mapped(){
-        textViewInforDetailFood = (TextView) findViewById(R.id.textViewInforDetailFood);
-        toolbar = (Toolbar) findViewById(R.id.toolbarDetailFood);
+        nameOfFood = (TextView)findViewById(R.id.nameOfFood);
+        textViewDetailFood = (TextView) findViewById(R.id.textViewDetailFood);
+        imageViewDetailFood = (ImageView)findViewById(R.id.imageDetailFood);
+        textViewMoney = (TextView) findViewById(R.id.textViewMoneyDetailFood);
+        textViewDuring = (TextView) findViewById(R.id.textViewTimeDetailFood);
+        textViewPerson = (TextView) findViewById(R.id.textViewPersonDetailFood);
     }
+
 }

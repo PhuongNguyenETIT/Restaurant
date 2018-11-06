@@ -18,22 +18,25 @@ import vn.iotech.restaurant.Models.LoginWrap;
 import vn.iotech.restaurant.Models.ProfileWrap;
 import vn.iotech.restaurant.Retrofit2.APIRetrofitUtils;
 import vn.iotech.restaurant.Retrofit2.RetrofitDataClient;
+import android.provider.Settings.Secure;
 
 public class Login extends AppCompatActivity {
+
+    private Boolean settingCallback = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Intent intent = getIntent();
-        Boolean settingCallback = intent.getBooleanExtra("settingBack", false);
-
         ConfigsStatic.sharedPreferences = getSharedPreferences("comfigs", MODE_PRIVATE);
         ConfigsStatic.restaurantID = ConfigsStatic.sharedPreferences.getString("restaurantId", "");
         ConfigsStatic.statusAuthenticate = ConfigsStatic.sharedPreferences.getBoolean("authenticate", false);
         ConfigsStatic.idTable = ConfigsStatic.sharedPreferences.getString("idTable", "");
         ConfigsStatic.token = ConfigsStatic.sharedPreferences.getString("token", "");
+
+        Intent intent = getIntent();
+        settingCallback = intent.getBooleanExtra("settingBack", false);
 
         if (ConfigsStatic.restaurantID != ""){
             if(!ConfigsStatic.statusAuthenticate){
@@ -86,9 +89,6 @@ public class Login extends AppCompatActivity {
                                 }
                                 else if(response.body().getData().getAuth()){
                                     ConfigsStatic.token = response.body().getData().getToken();
-                                    SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
-                                    editor.putString("token", ConfigsStatic.token);
-                                    editor.commit();
                                     getProfile(ConfigsStatic.token);
                                 }
                             }
@@ -103,6 +103,7 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
     private void getProfile(String token){
         RetrofitDataClient client = APIRetrofitUtils.getData();
         Call<ProfileWrap> call = client.getProfile(token);
@@ -117,17 +118,26 @@ public class Login extends AppCompatActivity {
                     else {
                         ConfigsStatic.restaurantID = response.body().getProfile().getResult().getRestaurantId();
                         SharedPreferences.Editor editor = ConfigsStatic.sharedPreferences.edit();
-                        editor.putString("restaurantId", ConfigsStatic.restaurantID);
+                        editor.putString("token", token);
+                        ConfigsStatic.statusAuthenticate = true;
                         editor.putBoolean("authenticate", true);
                         editor.commit();
-                        ConfigsStatic.statusAuthenticate = true;
-                        if(ConfigsStatic.idTable != ""){
-                            startActivity(new Intent(Login.this, Home.class)
+                        if (!ConfigsStatic.restaurantID.equals(ConfigsStatic.sharedPreferences.
+                                getString("restaurantId", ""))) {
+                            editor.clear();
+                            editor.putString("restaurantId", ConfigsStatic.restaurantID);
+                            editor.commit();
+                            startActivity(new Intent(Login.this, SettingTable.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         }
                         else {
-                            startActivity(new Intent(Login.this, SettingTable.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            if (!settingCallback) {
+                                startActivity(new Intent(Login.this, Home.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            } else {
+                                startActivity(new Intent(Login.this, Setting.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            }
                         }
                     }
                 }

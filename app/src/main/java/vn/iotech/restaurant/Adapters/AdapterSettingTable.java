@@ -84,7 +84,7 @@ public class AdapterSettingTable extends BaseAdapter {
 
     @Override
     public boolean isEnabled(int position) {
-        if(tableConfigList.get(position).getSetting()) {
+        if (tableConfigList.get(position).getSetting()) {
             return false;
         }
         return true;

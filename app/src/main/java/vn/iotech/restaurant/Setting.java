@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class Setting extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,11 @@ public class Setting extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         buttonBackToolbar();
+
+        ConfigsStatic.nameTableConfig = ConfigsStatic.sharedPreferences.getString("nameTable", "");
+
+        TextView txtTable = (TextView)findViewById(R.id.txtTableConfig);
+        txtTable.setText(ConfigsStatic.nameTableConfig);
 
     }
 
@@ -45,7 +50,7 @@ public class Setting extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Setting.this, Home.class);
-                startActivity(intent);
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
     }

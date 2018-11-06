@@ -3,23 +3,17 @@ package vn.iotech.restaurant.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-
 import vn.iotech.restaurant.ConfigsStatic;
 import vn.iotech.restaurant.DetailItemRestaurant;
 import vn.iotech.restaurant.Models.Food;
-import vn.iotech.restaurant.Models.FoodWrap;
-import vn.iotech.restaurant.Models.ObjectForRecyclerViewHome;
 import vn.iotech.restaurant.R;
 
 public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder>{
@@ -61,6 +55,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Picasso.get().load(ConfigsStatic.domainImage+arrayListFoods.get(position).getImage())
+                .error(R.drawable.default_image)
                 .into(holder.imageViewFood);
 
         holder.textViewDetail.setText(arrayListFoods.get(position).getName());
@@ -71,6 +66,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder>{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailItemRestaurant.class);
+                intent.putExtra("byID", arrayListFoods.get(position).getId());
                 view.getContext().startActivity(intent);
             }
         });

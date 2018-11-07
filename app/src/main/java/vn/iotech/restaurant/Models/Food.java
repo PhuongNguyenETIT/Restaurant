@@ -32,7 +32,7 @@ public class Food {
     private String image;
     @SerializedName("price")
     @Expose
-    private Integer price;
+    private Double price;
     @SerializedName("unitPrice")
     @Expose
     private String unitPrice;
@@ -110,11 +110,11 @@ public class Food {
         this.image = image;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

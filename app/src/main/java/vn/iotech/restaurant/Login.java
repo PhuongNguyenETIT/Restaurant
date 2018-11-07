@@ -34,11 +34,12 @@ public class Login extends AppCompatActivity {
         ConfigsStatic.statusAuthenticate = ConfigsStatic.sharedPreferences.getBoolean("authenticate", false);
         ConfigsStatic.idTable = ConfigsStatic.sharedPreferences.getString("idTable", "");
         ConfigsStatic.token = ConfigsStatic.sharedPreferences.getString("token", "");
+        ConfigsStatic.nameTableConfig = ConfigsStatic.sharedPreferences.getString("nameTable", "");
 
         Intent intent = getIntent();
         settingCallback = intent.getBooleanExtra("settingBack", false);
 
-        if (ConfigsStatic.restaurantID != ""){
+        if (ConfigsStatic.restaurantID != "" && ConfigsStatic.idTable != ""){
             if(!ConfigsStatic.statusAuthenticate){
                 Button buttonSkip = (Button) findViewById(R.id.buttonSkip);
                 buttonSkip.setVisibility(View.VISIBLE);
@@ -132,9 +133,17 @@ public class Login extends AppCompatActivity {
                         }
                         else {
                             if (!settingCallback) {
-                                startActivity(new Intent(Login.this, Home.class)
-                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            } else {
+                                if (ConfigsStatic.idTable != "") {
+                                    startActivity(new Intent(Login.this, Home.class)
+                                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                }
+                                else {
+                                    startActivity(new Intent(Login.this, SettingTable.class)
+                                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                }
+
+                            }
+                            else {
                                 startActivity(new Intent(Login.this, Setting.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             }

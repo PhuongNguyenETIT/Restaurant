@@ -45,7 +45,7 @@
             android:configChanges="screenSize|orientation"
             android:windowSoftInputMode="adjustResize"/>
 
-        <activity android:name=".DetailItemRestaurant"
+        <activity android:name=".DetailItemFood"
             android:configChanges="screenSize|orientation"></activity>
     </application>
 

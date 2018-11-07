@@ -7,13 +7,14 @@
     android:gravity="center"
     android:background="@drawable/header_background">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <vn.iotech.circleimageview.CircleImageView
         android:id="@+id/imageAvatar"
         android:layout_gravity="center"
-        app:civ_border_width="5dp"
-        app:civ_border_color="@color/colorWhite"
+        android:src="@drawable/default_image"
+        app:circle_border_width="5dp"
+        app:circle_border_color="@color/colorWhite"
         android:layout_width="120dp"
-        android:layout_height="120dp"/>
+        android:layout_height="120dp" />
 
 
     <TextView

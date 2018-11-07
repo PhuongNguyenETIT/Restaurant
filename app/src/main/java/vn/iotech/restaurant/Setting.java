@@ -28,8 +28,6 @@ public class Setting extends AppCompatActivity {
 
         buttonBackToolbar();
 
-        ConfigsStatic.nameTableConfig = ConfigsStatic.sharedPreferences.getString("nameTable", "");
-
         TextView txtTable = (TextView)findViewById(R.id.txtTableConfig);
         txtTable.setText(ConfigsStatic.nameTableConfig);
 

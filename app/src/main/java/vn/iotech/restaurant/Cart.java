@@ -23,17 +23,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-
 import vn.iotech.restaurant.Adapters.AdapterCart;
 import vn.iotech.restaurant.Models.ObjectForRecyclerViewInCart;
+import vn.iotech.restaurant.Models.PreferencesCart;
 
 public class Cart extends AppCompatActivity {
 
     private Toolbar toolbar;
     private Button buttonInvoice, buttonService;
+    private TextView textViewTableCart;
     Dialog dialogPopup;
+    ArrayList<ObjectForRecyclerViewInCart> arrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,7 @@ public class Cart extends AppCompatActivity {
         buttonBackToolbar();
 
         initRecyclerViewCart();
+
         buttonInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,11 +57,11 @@ public class Cart extends AppCompatActivity {
             }
         });
 
-        PopupService();
+        popupService();
 
     }
 
-    private void PopupService(){
+    private void popupService(){
         dialogPopup = new Dialog(this);
         dialogPopup.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogPopup.setContentView(R.layout.custom_popup_service);
@@ -108,10 +113,17 @@ public class Cart extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         CustomDivider customDivider = new CustomDivider(recyclerView.getContext(), 80, 26);
         recyclerView.addItemDecoration(customDivider);
-        ArrayList<ObjectForRecyclerViewInCart> arrayList = new ArrayList<>();
-        arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_delete_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
-        arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_hourglass_empty_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
-        arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_check_white_24dp, "Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View Ditail View", 15, 4, 45.76, 0));
+        String json = ConfigsStatic.preferencesCart.getString("objectCart", "");
+        if(json != "") {
+            Type type = new TypeToken<ArrayList<PreferencesCart>>(){}.getType();
+            ArrayList<PreferencesCart> preferencesCarts = new Gson().fromJson(json, type);
+            for (int i = 0; i < preferencesCarts.size(); i++) {
+                arrayList.add(new ObjectForRecyclerViewInCart(R.drawable.ic_delete_white_24dp,
+                        preferencesCarts.get(i).getName(), preferencesCarts.get(i).getDuring(),
+                        preferencesCarts.get(i).getPeople(), preferencesCarts.get(i).getPrice(),
+                        preferencesCarts.get(i).getAmount(), preferencesCarts.get(i).getUnitPrice()));
+            }
+        }
         AdapterCart viewCart = new AdapterCart(arrayList, getApplicationContext());
         recyclerView.setAdapter(viewCart);
     }
@@ -119,6 +131,8 @@ public class Cart extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarCart);
         buttonInvoice = (Button) findViewById(R.id.buttonInvoiceInCart);
         buttonService = (Button) findViewById(R.id.buttonSevice);
+        textViewTableCart = (TextView) findViewById(R.id.textViewCartTable);
+        textViewTableCart.setText("Table " + ConfigsStatic.nameTableConfig);
     }
 
     public void bookingInCart(View view){

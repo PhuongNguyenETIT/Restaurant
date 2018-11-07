@@ -1,18 +1,30 @@
 package vn.iotech.restaurant.Models;
 
 public class ObjectForRecyclerViewInCart extends ObjectForRecyclerViewHome {
-    int Amout;
+    int Amount;
+    String UnitPrice;
 
-    public ObjectForRecyclerViewInCart(int imageFoods, String detialed, int time, int person, double money, int amout) {
+    public ObjectForRecyclerViewInCart(int imageFoods, String detialed, int time,
+                                       int person, double money, int amount, String unitPrice) {
         super(imageFoods, detialed, time, person, money);
-        Amout = amout;
+        Amount = amount;
+        UnitPrice = unitPrice;
     }
 
     public int getAmout() {
-        return Amout;
+        return Amount;
+
     }
 
     public void setAmout(int amout) {
-        Amout = amout;
+        Amount = amout;
+    }
+
+    public String getUnitPrice() {
+        return UnitPrice;
+    }
+
+    public void setUnitPrice(String unitPrice) {
+        UnitPrice = unitPrice;
     }
 }

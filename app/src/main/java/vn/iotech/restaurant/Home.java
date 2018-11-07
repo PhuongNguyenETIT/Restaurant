@@ -23,23 +23,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.iotech.circleimageview.CircleImageView;
 import vn.iotech.restaurant.Adapters.AdapterHome;
 import vn.iotech.restaurant.Models.CategoryWrap;
 import vn.iotech.restaurant.Models.Food;
 import vn.iotech.restaurant.Models.FoodWrap;
+import vn.iotech.restaurant.Models.PreferencesCart;
 import vn.iotech.restaurant.Models.RestaurantWrap;
 import vn.iotech.restaurant.Retrofit2.APIRetrofitUtils;
 import vn.iotech.restaurant.Retrofit2.RetrofitDataClient;
@@ -52,7 +55,7 @@ public class Home extends AppCompatActivity {
     Toolbar toolbar;
 
     Button buttonViewCart;
-    private TextView textViewItems;
+    public static TextView textViewItems;
     private NavigationView navigationView;
     private CircleImageView imageViewAvatar;
     private TextView textViewNameRestaurant;
@@ -67,6 +70,8 @@ public class Home extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        ConfigsStatic.preferencesCart = getSharedPreferences("Cart", MODE_PRIVATE);
 
         selectItemsNavigationView();
 
@@ -100,9 +105,13 @@ public class Home extends AppCompatActivity {
         });
 
         textViewItems =(TextView) findViewById(R.id.totalItems);
-        String txt = "There are <font color='red'>14</font> items in Cart";
-        textViewItems.setText(Html.fromHtml(txt), TextView.BufferType.SPANNABLE);
-
+        String json = ConfigsStatic.preferencesCart.getString("objectCart", "");
+        if(json != "") {
+            Type type = new TypeToken<List<PreferencesCart>>(){}.getType();
+            ArrayList<PreferencesCart> arrayList = new Gson().fromJson(json, type);
+            String txt = "There are <font color='red'>" + arrayList.size() + "</font> items in Cart";
+            textViewItems.setText(Html.fromHtml(txt), TextView.BufferType.SPANNABLE);
+        }
         buttonBackToolbar();
         rxWebSocketRestaurant(ConfigsStatic.domainWSRestaurant + ConfigsStatic.restaurantID);
     }

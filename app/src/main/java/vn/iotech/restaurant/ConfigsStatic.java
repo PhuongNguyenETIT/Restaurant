@@ -13,6 +13,7 @@ public class ConfigsStatic {
     public static final String domainImage = "http://13.67.35.142:8681/photo/";
     public static String token;
     public static SharedPreferences sharedPreferences;
+    public static SharedPreferences preferencesCart;
     public static String restaurantID;
     public static Boolean statusAuthenticate;
     public static String idTable;

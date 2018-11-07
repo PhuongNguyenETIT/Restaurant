@@ -3,14 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorWhiteDark"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="26dp"
     tools:context=".Cart">
 
     <android.support.constraint.ConstraintLayout
         android:background="@color/colorWhiteDark"
+        android:layout_marginBottom="26dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline33"
@@ -35,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <TextView
-                android:id="@+id/CartTable"
+                android:id="@+id/textViewCartTable"
                 android:layout_gravity="center"
                 android:textColor="@color/colorWhite"
                 android:text="Table 210"
@@ -108,18 +112,13 @@
             android:layout_width="210dp"
             android:layout_height="50dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewCart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:background="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonSevice"
-            app:layout_constraintVertical_bias="0.0">
-        </android.support.v7.widget.RecyclerView>
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

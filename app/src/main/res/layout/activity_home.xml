@@ -56,7 +56,6 @@
             android:layout_marginEnd="26dp"
             android:layout_marginTop="36dp"
             android:fontFamily="@font/montserrat"
-            android:text="There are 14 items in Cart"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
@@ -96,21 +95,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
         </android.support.v7.widget.RecyclerView>
-
-        <!--<android.support.v4.view.ViewPager
-            android:id="@+id/viewPagerHome"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonViewCart"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="26dp"
-            android:background="@color/colorWhite"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-        </android.support.v4.view.ViewPager>-->
 
     </android.support.constraint.ConstraintLayout>
 

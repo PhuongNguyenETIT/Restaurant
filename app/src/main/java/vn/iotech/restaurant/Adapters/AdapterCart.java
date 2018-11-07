@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import vn.iotech.circleimageview.CircleImageView;
 import vn.iotech.restaurant.Models.ObjectForRecyclerViewInCart;
 import vn.iotech.restaurant.R;
 
@@ -25,12 +24,11 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         CircleImageView circleImageView;
-        //ImageView circleImageView;
         TextView textViewDetail;
         TextView textViewTime;
         TextView person;
         TextView money;
-        TextView amout;
+        TextView amount;
         Button butonAdd;
         Button buttonReduction;
 
@@ -41,9 +39,9 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
             textViewTime = (TextView) itemView.findViewById(R.id.textViewTimeInCart);
             person = (TextView) itemView.findViewById(R.id.textViewPersonInCart);
             money = (TextView) itemView.findViewById(R.id.textViewMoneyInCart);
-            amout = (TextView) itemView.findViewById(R.id.textViewAmoutInCart);
-            butonAdd = (Button) itemView.findViewById(R.id.buttonAddInCart);
-            buttonReduction = (Button) itemView.findViewById(R.id.buttonReductionInCart);
+            amount = (TextView) itemView.findViewById(R.id.textViewAmountInCart);
+            butonAdd = (Button) itemView.findViewById(R.id.buttonIncreaseCart);
+            buttonReduction = (Button) itemView.findViewById(R.id.buttonReductionCart);
         }
     }
 
@@ -60,8 +58,8 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
         holder.textViewDetail.setText(arrayList.get(position).getDetailed());
         holder.textViewTime.setText(arrayList.get(position).getTime() + " (minute)");
         holder.person.setText(arrayList.get(position).getPerson() + " (person)");
-        holder.money.setText(arrayList.get(position).getMoney() + " USD");
-        holder.amout.setText(arrayList.get(position).getAmout() + "");
+        holder.money.setText(arrayList.get(position).getMoney() + " " + arrayList.get(position).getUnitPrice());
+        holder.amount.setText(arrayList.get(position).getAmout() + "");
 
         holder.butonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,9 +68,10 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
                     holder.buttonReduction.setClickable(true);
                 }
                 arrayList.get(position).setAmout(arrayList.get(position).getAmout() + 1);
-                holder.amout.setText(arrayList.get(position).getAmout() + "");
+                holder.amount.setText(arrayList.get(position).getAmout() + "");
             }
         });
+
         holder.buttonReduction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +82,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
                 else {
                     arrayList.get(position).setAmout(arrayList.get(position).getAmout() - 1);
                 }
-                holder.amout.setText(arrayList.get(position).getAmout()+"");
+                holder.amount.setText(arrayList.get(position).getAmout()+"");
             }
         });
     }
